@@ -1,0 +1,245 @@
+{
+  "design_system_meta": {
+    "project_name": "SmartVault DataFlow Analytics",
+    "theme_mode": "Dark",
+    "visual_style": "Modern SaaS / Bento Grid / Glassmorphism",
+    "base_framework": "Tailwind CSS",
+    "version": "1.0.0"
+  },
+  "typography": {
+    "font_families": {
+      "primary_sans": "Inter, ui-sans-serif, system-ui, sans-serif",
+      "brand_display": "Outfit, sans-serif"
+    },
+    "weights": {
+      "light": 300,
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    },
+    "scale": {
+      "h1_hero": {
+        "size": "clamp(2.25rem, 5vw, 3rem)",
+        "line_height": "1.1",
+        "tracking": "-0.025em",
+        "weight": "700"
+      },
+      "h2_section": {
+        "size": "1.5rem",
+        "weight": "700",
+        "tracking": "tight"
+      },
+      "h3_card": {
+        "size": "1.125rem",
+        "weight": "600"
+      },
+      "body_base": "1rem",
+      "body_sm": "0.875rem",
+      "caption": "0.75rem",
+      "mono": "font-mono"
+    },
+    "styles": {
+      "hero_gradient_text": "background-clip: text; color: transparent; background-image: linear-gradient(to right, #ffffff, #d4d4d8);",
+      "accent_text": "background-clip: text; color: transparent; background-image: linear-gradient(to right, #34d399, #10b981);"
+    }
+  },
+  "palette": {
+    "backgrounds": {
+      "page_root": "#09090b",
+      "card_surface": "#09090b",
+      "card_secondary": "#18181b",
+      "glass_sidebar": "linear-gradient(180deg, rgba(24, 24, 27, 0.7), rgba(9, 9, 11, 0.9))",
+      "glass_header": "rgba(9, 9, 11, 0.8)",
+      "input_surface": "rgba(24, 24, 27, 0.6)"
+    },
+    "text": {
+      "primary": "#e4e4e7",
+      "secondary": "#a1a1aa",
+      "muted": "#71717a",
+      "inverse": "#ffffff"
+    },
+    "borders": {
+      "subtle": "rgba(255, 255, 255, 0.05)",
+      "light": "rgba(255, 255, 255, 0.08)",
+      "highlight": "rgba(255, 255, 255, 0.15)",
+      "input": "rgba(63, 63, 70, 0.5)"
+    },
+    "brand_accent": {
+      "primary": "#10b981",
+      "primary_hover": "#34d399",
+      "danger": "#dc2626",
+      "danger_hover": "#ef4444",
+      "warning": "#eab308",
+      "info": "#3b82f6"
+    },
+    "status": {
+      "online": "#10b981",
+      "offline": "#71717a",
+      "alert": "#ef4444",
+      "warning": "#eab308"
+    }
+  },
+  "layout_and_spacing": {
+    "container": {
+      "sidebar_width": "18rem",
+      "header_height": "5rem",
+      "padding_base": "2rem"
+    },
+    "grid_system": {
+      "type": "Bento Grid",
+      "cols_desktop": 12,
+      "gap": "1.5rem"
+    },
+    "border_radius": {
+      "bento_card": "1.5rem",
+      "card_inner": "1rem",
+      "button": "0.75rem",
+      "pill": "9999px"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary_cta": {
+        "background": "#10b981",
+        "text_color": "#ffffff",
+        "padding": "0.75rem 1.5rem",
+        "radius": "0.75rem",
+        "font_weight": "500",
+        "shadow": "0 10px 30px -10px rgba(16,185,129,0.7)",
+        "hover_transform": "translateY(-1px)",
+        "transition": "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "danger_cta": {
+        "background": "#dc2626",
+        "text_color": "#ffffff",
+        "padding": "0.75rem 1.5rem",
+        "radius": "0.75rem",
+        "shadow": "0 10px 30px -10px rgba(220, 38, 38, 0.7)",
+        "hover_bg": "#ef4444"
+      },
+      "secondary_outline": {
+        "background": "rgba(24, 24, 27, 0.6)",
+        "border": "1px solid rgba(63, 63, 70, 0.5)",
+        "text_color": "#e4e4e7",
+        "radius": "0.75rem",
+        "backdrop_filter": "blur(4px)",
+        "hover_bg": "rgba(39, 39, 42, 0.8)",
+        "hover_border": "rgba(161, 161, 170, 0.4)"
+      },
+      "nav_pill": {
+        "padding": "0.75rem 1.25rem",
+        "radius": "9999px",
+        "default_text": "#a1a1aa",
+        "active_text": "#10b981",
+        "active_bg": "rgba(16, 185, 129, 0.1)",
+        "hover_bg": "rgba(255, 255, 255, 0.03)"
+      }
+    },
+    "cards": {
+      "bento_primary": {
+        "background": "#09090b",
+        "border": "1px solid rgba(255, 255, 255, 0.08)",
+        "radius": "1.5rem",
+        "hover_shadow": "0 20px 40px -15px rgba(0,0,0,0.5)",
+        "hover_border": "rgba(255, 255, 255, 0.15)",
+        "hover_transform": "translateY(-2px)"
+      },
+      "bento_secondary": {
+        "background": "#18181b",
+        "border": "1px solid rgba(255, 255, 255, 0.05)",
+        "radius": "1rem"
+      }
+    },
+    "inputs": {
+      "glass_field": {
+        "background": "rgba(24, 24, 27, 0.6)",
+        "border": "1px solid rgba(63, 63, 70, 0.5)",
+        "radius": "0.75rem",
+        "text_color": "#ffffff",
+        "focus_border": "#10b981",
+        "focus_shadow": "0 0 0 1px rgba(16, 185, 129, 0.4)"
+      }
+    },
+    "navigation_bar": {
+      "sidebar_style": "Glassmorphism (Backdrop Blur XL)",
+      "header_style": "Translucent (Backdrop Blur MD)",
+      "shadow": "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+    }
+  },
+  "effects": {
+    "shadows": {
+      "glow_primary": "0 0 120px rgba(16, 185, 129, 0.15)",
+      "glow_danger": "0 0 30px rgba(220, 38, 38, 0.2)",
+      "card_lift": "0 20px 40px -15px rgba(0,0,0,0.5)"
+    },
+    "gradients": {
+      "background_glow": "radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 70%)"
+    },
+    "blurs": {
+      "nav_sidebar": "24px (xl)",
+      "nav_header": "12px (md)",
+      "modal": "16px"
+    }
+  },
+  "animations": {
+    "transitions": {
+      "default": "all 0.3s ease",
+      "button": "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+      "view_switch": "0.4s cubic-bezier(0.2, 0.8, 0.2, 1)"
+    },
+    "hover_states": {
+      "card": {
+        "transform": "translateY(-2px)",
+        "border_color": "rgba(255, 255, 255, 0.15)"
+      },
+      "button_primary": {
+        "transform": "translateY(-1px)",
+        "shadow": "0 15px 35px -10px rgba(16,185,129,0.8)"
+      }
+    },
+    "keyframes": {
+      "fade_up": {
+        "from": { "opacity": "0", "transform": "translateY(10px)" },
+        "to": { "opacity": "1", "transform": "translateY(0)" }
+      },
+      "pulse_glow": {
+        "0%, 100%": { "opacity": "1" },
+        "50%": { "opacity": "0.5" }
+      }
+    },
+    "scripts": {
+      "gsap_integration": "Used for smooth entrance animations and view switching logic."
+    }
+  },
+  "assets": {
+    "icon_set": {
+      "library": "Lucide Icons",
+      "style": "Rounded Stroke",
+      "stroke_width": "2px",
+      "default_color": "currentColor"
+    },
+    "logo_set": {
+      "style": "Text + Icon Composition",
+      "font": "Brand Display (Outfit)",
+      "icon_container": "Gradient background (Emerald 400 to 600)"
+    }
+  },
+  "adaptive_layout_specs": {
+    "mobile": {
+      "breakpoint": "< 768px",
+      "nav": "Hidden Sidebar, visible Hamburger Menu in Header",
+      "grid": "Single Column Bento"
+    },
+    "tablet": {
+      "breakpoint": "768px - 1024px",
+      "nav": "Sidebar visible (Icon only or Slim)",
+      "grid": "2 Column Bento"
+    },
+    "desktop": {
+      "breakpoint": "> 1024px",
+      "nav": "Full Sidebar (18rem)",
+      "grid": "4 Column Bento (12 grid system)"
+    }
+  }
+}

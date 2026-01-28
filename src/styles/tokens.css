@@ -1,0 +1,46 @@
+:root {
+  /* Backgrounds */
+  --bg-page: #09090b;
+  --bg-card: #09090b;
+  --bg-card-2: #18181b;
+  --bg-input: rgba(24, 24, 27, 0.6);
+  --bg-header-glass: rgba(9, 9, 11, 0.8);
+
+  /* Text */
+  --text-primary: #e4e4e7;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --text-inverse: #ffffff;
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.15);
+  --border-input: rgba(63, 63, 70, 0.5);
+
+  /* Brand accents */
+  --brand: #10b981;
+  --brand-hover: #34d399;
+  --danger: #dc2626;
+  --danger-hover: #ef4444;
+  --warning: #eab308;
+  --info: #3b82f6;
+
+  /* Effects */
+  --glow-primary: 0 0 120px rgba(16, 185, 129, 0.15);
+  --glow-danger: 0 0 30px rgba(220, 38, 38, 0.2);
+  --card-lift: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+
+  /* Gradients */
+  --bg-glow: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+
+  /* Radii */
+  --r-bento: 1.5rem;
+  --r-inner: 1rem;
+  --r-btn: 0.75rem;
+  --r-pill: 9999px;
+
+  /* Blur */
+  --blur-xl: 24px;
+  --blur-md: 12px;
+}
