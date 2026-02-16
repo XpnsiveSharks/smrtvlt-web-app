@@ -28,12 +28,15 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export class ApiError extends Error {
+  readonly status: number
+
   constructor(
-    public readonly status: number,
+    status: number,
     message: string,
   ) {
     super(message)
     this.name = 'ApiError'
+    this.status = status
   }
 }
 
