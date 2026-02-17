@@ -35,7 +35,9 @@ export function useApi<T>(
 
   // Keep fetchFn stable across renders without requiring memo at call site
   const fetchFnRef = useRef(fetchFn)
-  fetchFnRef.current = fetchFn
+  useEffect(() => {
+    fetchFnRef.current = fetchFn
+  }, [fetchFn])
 
   const fetch = useCallback(async () => {
     setState(prev => ({ ...prev, loading: true, error: null, isUnauthorized: false }))
@@ -57,7 +59,10 @@ export function useApi<T>(
 
   // Initial fetch
   useEffect(() => {
-    fetch()
+    const id = setTimeout(() => {
+      void fetch()
+    }, 0)
+    return () => clearTimeout(id)
   }, [fetch])
 
   // Auto-refresh

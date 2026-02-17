@@ -1,15 +1,17 @@
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL as string | undefined
-const adminToken = import.meta.env.VITE_ADMIN_TOKEN as string | undefined
+const apiBaseUrl =
+  (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? 'http://localhost:8000'
 
-if (!apiBaseUrl) {
-  console.error('[SmartVault] VITE_API_BASE_URL is not set in .env')
-}
+const adminTokenKey =
+  (import.meta.env.VITE_ADMIN_TOKEN_KEY as string | undefined) ??
+  'smartvault_admin_token'
 
-if (!adminToken) {
-  console.error('[SmartVault] VITE_ADMIN_TOKEN is not set in .env')
-}
+const adminToken =
+  typeof window !== 'undefined'
+    ? window.localStorage.getItem(adminTokenKey) ?? ''
+    : ''
 
 export const config = {
-  apiBaseUrl: apiBaseUrl ?? '',
-  adminToken: adminToken ?? '',
+  apiBaseUrl,
+  adminToken,
+  adminTokenKey,
 } as const
