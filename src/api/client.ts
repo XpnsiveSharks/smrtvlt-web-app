@@ -253,7 +253,7 @@ export const client = {
   getRateLimits: () =>
     apiFetch<RateLimitsResponse>('/internal/ops/rate-limits'),
 
-  getRedisDignostics: () =>
+  getRedisDiagnostics: () =>
     apiFetch<DiagnosticsRedisResponse>('/internal/ops/diagnostics/redis'),
 
   getWebSocketDiagnostics: () =>
