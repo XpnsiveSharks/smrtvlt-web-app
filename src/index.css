@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -11,11 +12,13 @@
 
 body {
   margin: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.08), transparent 35%),
-    radial-gradient(circle at 80% 10%, rgba(99, 102, 241, 0.08), transparent 30%),
-    radial-gradient(circle at 60% 70%, rgba(16, 185, 129, 0.08), transparent 28%),
-    #0f172a;
-  color: #e2e8f0;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #f5f5f5;
+  background-color: #0a0a0a;
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(191, 255, 0, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.05), transparent 30%);
 }
 
 #root {

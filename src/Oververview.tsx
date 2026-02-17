@@ -1,14 +1,14 @@
 // src/screens/Overview.tsx
 
-import { client } from '../api/client'
-import { useApi } from '../hooks/useApi'
+import { client } from './api/client'
+import { useApi } from './hooks/useApi'
 import {
   KpiCard,
   LoadingSpinner,
   ErrorMessage,
   RefreshBar,
   SectionTitle,
-} from '../components/shared'
+} from './components/shared'
 
 const VAULT_STATUS_COLOURS: Record<string, string> = {
   UNLOCKED: 'bg-emerald-400',
