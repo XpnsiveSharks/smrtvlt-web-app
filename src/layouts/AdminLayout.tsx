@@ -29,6 +29,30 @@ export function AdminLayout() {
           >
             Ops Summary
           </NavLink>
+          <NavLink
+            to="/ops/audit"
+            className={({ isActive }) =>
+              `block rounded-lg px-3 py-2 text-sm transition ${
+                isActive
+                  ? 'bg-brand text-black'
+                  : 'text-app-muted hover:bg-app-surface-2 hover:text-app-text'
+              }`
+            }
+          >
+            Audit Logs
+          </NavLink>
+          <NavLink
+            to="/ops/api-keys"
+            className={({ isActive }) =>
+              `block rounded-lg px-3 py-2 text-sm transition ${
+                isActive
+                  ? 'bg-brand text-black'
+                  : 'text-app-muted hover:bg-app-surface-2 hover:text-app-text'
+              }`
+            }
+          >
+            API Keys
+          </NavLink>
         </nav>
       </aside>
 
