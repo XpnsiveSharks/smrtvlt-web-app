@@ -1,4 +1,4 @@
-import { type FormEvent, useCallback, useState } from 'react'
+import { type FormEvent, useCallback, useState, type JSX } from 'react'
 import {
   createApiKey,
   revokeApiKey,
@@ -11,11 +11,47 @@ import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { useApiKeys } from './hooks/useApiKeys'
 
-function formatDate(value: string | null | undefined): string {
+function formatRelativeTime(isoString: string): string {
+  try {
+    const date = new Date(isoString)
+    const now = new Date()
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+    
+    if (seconds < 0) return 'just now'
+    if (seconds < 60) return `${seconds}s ago`
+    const minutes = Math.floor(seconds / 60)
+    if (minutes < 60) return `${minutes}m ago`
+    const hours = Math.floor(minutes / 60)
+    if (hours < 24) return `${hours}h ago`
+    const days = Math.floor(hours / 24)
+    return `${days}d ago`
+  } catch {
+    return isoString
+  }
+}
+
+function formatDate(value: string | null | undefined, showRelative = false): JSX.Element | string {
   if (!value) return '-'
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return value
-  return date.toLocaleString()
+  
+  const isoFormat = date.toISOString()
+  const relativeTime = formatRelativeTime(isoFormat)
+  const displayText = showRelative ? relativeTime : date.toLocaleString()
+  
+  // Return a tooltip-enabled element for relative time
+  if (showRelative) {
+    return (
+      <span 
+        className="cursor-help hover:text-brand transition-colors"
+        title={isoFormat}
+      >
+        {displayText}
+      </span>
+    )
+  }
+  
+  return displayText
 }
 
 /* ── Create Key Modal ── */
@@ -57,7 +93,7 @@ function CreateKeyModal({ onClose, onCreated }: CreateKeyModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={onClose}>
       <div
-        className="w-full max-w-md rounded-2xl border border-app-border bg-app-surface p-6"
+        className="w-full max-w-md rounded-2xl border border-app-border bg-app-surface p-6 shadow-xl shadow-black/40"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="font-display text-xl text-app-text">Create API Key</h2>
@@ -124,7 +160,7 @@ function KeyRevealDialog({ result, onClose }: KeyRevealDialogProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-      <div className="w-full max-w-lg rounded-2xl border border-app-border bg-app-surface p-6">
+      <div className="w-full max-w-lg rounded-2xl border border-app-border bg-app-surface p-6 shadow-xl shadow-black/40">
         <h2 className="font-display text-xl text-app-text">API Key Created</h2>
         <p className="mt-2 text-sm text-app-muted">
           Copy this key now. It will not be shown again.
@@ -146,7 +182,7 @@ function KeyRevealDialog({ result, onClose }: KeyRevealDialogProps) {
           </div>
           <div className="flex gap-2">
             <dt className="text-app-muted">Expires:</dt>
-            <dd className="text-app-text">{result.expires_at ? formatDate(result.expires_at) : 'Never'}</dd>
+            <dd className="text-app-text">{result.expires_at ? formatDate(result.expires_at, true) : 'Never'}</dd>
           </div>
         </dl>
 
@@ -171,7 +207,7 @@ function RevokeDialog({ keyName, onConfirm, onCancel, revoking }: RevokeDialogPr
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={onCancel}>
       <div
-        className="w-full max-w-sm rounded-2xl border border-app-border bg-app-surface p-6"
+        className="w-full max-w-sm rounded-2xl border border-app-border bg-app-surface p-6 shadow-xl shadow-black/40"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="font-display text-xl text-app-text">Revoke API Key</h2>
@@ -270,13 +306,14 @@ export function OpsApiKeysPage() {
         {!loading && !error && (
           <>
             {(data?.items?.length ?? 0) === 0 ? (
-              <div className="rounded-lg border border-app-border bg-app-surface p-4 text-sm text-app-muted">
-                No API keys found.
+              <div className="flex flex-col items-center justify-center rounded-lg border border-app-border bg-app-surface-2 py-8 px-4 text-center">
+                <div className="mb-2 text-sm text-app-muted">No API keys found</div>
+                <p className="text-xs text-app-muted/70">Create your first API key to get started.</p>
               </div>
             ) : (
               <div className="overflow-x-auto rounded-lg border border-app-border">
                 <table className="min-w-full divide-y divide-app-border text-sm">
-                  <thead className="bg-app-surface-2">
+                  <thead className="bg-app-surface-2 bg-gradient-to-b from-white/5 to-transparent">
                     <tr className="text-left text-app-muted">
                       <th className="px-3 py-2 font-medium">Name</th>
                       <th className="px-3 py-2 font-medium">Created By</th>
@@ -293,13 +330,19 @@ export function OpsApiKeysPage() {
                         <td className="px-3 py-2 font-medium text-app-text">{item.name}</td>
                         <td className="px-3 py-2 text-app-text">{item.created_by}</td>
                         <td className="whitespace-nowrap px-3 py-2 text-app-text">
-                          {formatDate(item.created_at)}
+                          {formatDate(item.created_at, true)}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-2">
+                          {item.last_used_at ? (
+                            formatDate(item.last_used_at, true)
+                          ) : (
+                            <span className="inline-block rounded-full bg-app-muted/20 px-2 py-0.5 text-xs text-app-muted">
+                              Never
+                            </span>
+                          )}
                         </td>
                         <td className="whitespace-nowrap px-3 py-2 text-app-text">
-                          {formatDate(item.last_used_at)}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-2 text-app-text">
-                          {formatDate(item.expires_at)}
+                          {formatDate(item.expires_at, true)}
                         </td>
                         <td className="px-3 py-2">
                           {item.is_active ? (
