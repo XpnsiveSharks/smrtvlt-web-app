@@ -60,12 +60,8 @@ export function LoginPage() {
         <p className="font-display text-xs uppercase tracking-[0.2em] text-brand">SmartVault Internal</p>
         <h1 className="mt-2 font-display text-3xl text-app-text">Admin Login</h1>
         <p className="mt-2 text-sm text-app-muted">
-          Enter your admin token, test it against <code>/internal/ping</code>, then continue.
+          Enter your admin token, test it, then continue.
         </p>
-
-        <label className="mt-6 block text-sm text-app-muted" htmlFor="admin-token">
-          X-Admin-Token
-        </label>
         <input
           id="admin-token"
           type="password"
@@ -75,7 +71,7 @@ export function LoginPage() {
             setCanContinue(false)
             setErrorDetail(null)
           }}
-          className="mt-2 w-full rounded-lg border border-app-border bg-app-surface-2 px-3 py-2 text-sm text-app-text outline-none transition focus:border-brand"
+          className="mt-4 w-full rounded-lg border border-app-border bg-app-surface-2 px-3 py-2 text-sm text-app-text outline-none transition focus:border-brand"
           placeholder="Paste admin token"
           autoComplete="off"
         />
@@ -85,16 +81,16 @@ export function LoginPage() {
         {errorDetail && <ErrorState title="Connection failed" detail={errorDetail} />}
 
         {canContinue && !errorDetail && (
-          <p className="rounded-lg border border-brand/40 bg-brand/10 p-3 text-sm text-lime-100">
+          <p className="mt-4 rounded-lg border border-brand/40 bg-brand/10 p-3 text-sm text-lime-100">
             Connection succeeded. You can now save and continue.
           </p>
         )}
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button variant="secondary" onClick={handleTestConnection} isLoading={isTesting}>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Button variant="secondary" onClick={handleTestConnection} isLoading={isTesting} className="flex-1">
             Test connection
           </Button>
-          <Button onClick={handleSaveAndContinue} disabled={!canContinue || isTesting}>
+          <Button onClick={handleSaveAndContinue} disabled={!canContinue || isTesting} className="flex-1">
             Save &amp; Continue
           </Button>
         </div>

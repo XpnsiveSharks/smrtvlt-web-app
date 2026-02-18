@@ -1,25 +1,25 @@
 import { useCallback, useEffect, useState } from 'react'
-import { getOpsSummary, type OpsSummaryResponse } from '../../../api/internal/ops'
+import { getSecurityAlerts, type SecurityAlertsResponse } from '../../../api/internal/security'
 import { normalizeApiError, type EnhancedApiError } from '../../../api/http'
 
-interface UseOpsSummaryResult {
-  data: OpsSummaryResponse | null
+interface UseSecurityAlertsResult {
+  data: SecurityAlertsResponse | null
   loading: boolean
   error: EnhancedApiError | null
   refetch: () => Promise<void>
 }
 
-export function useOpsSummary(): UseOpsSummaryResult {
-  const [data, setData] = useState<OpsSummaryResponse | null>(null)
+export function useSecurityAlerts(): UseSecurityAlertsResult {
+  const [data, setData] = useState<SecurityAlertsResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<EnhancedApiError | null>(null)
 
-  const fetchSummary = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
     setError(null)
 
     try {
-      const response = await getOpsSummary()
+      const response = await getSecurityAlerts()
       if (response) {
         setData(response)
       }
@@ -31,13 +31,13 @@ export function useOpsSummary(): UseOpsSummaryResult {
   }, [])
 
   useEffect(() => {
-    void fetchSummary()
-  }, [fetchSummary])
+    void fetchData()
+  }, [fetchData])
 
   return {
     data,
     loading,
     error,
-    refetch: fetchSummary,
+    refetch: fetchData,
   }
 }

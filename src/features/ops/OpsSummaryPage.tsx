@@ -2,6 +2,7 @@ import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
+import { StatusBadge } from '../../components/ui/StatusBadge'
 import { useOpsSummary } from './hooks/useOpsSummary'
 
 function displayValue(value: number | string | null | undefined): string {
@@ -40,10 +41,12 @@ export function OpsSummaryPage() {
 
       {!loading && error && (
         <div className="space-y-3">
-          <ErrorState title="Failed to load ops summary" detail={error} />
-          <Button variant="secondary" onClick={() => void refetch()}>
-            Retry
-          </Button>
+          <ErrorState 
+            title="Failed to load ops summary" 
+            detail={error.statusText}
+            status={error.status}
+            onRetry={() => void refetch()}
+          />
         </div>
       )}
 

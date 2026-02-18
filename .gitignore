@@ -28,5 +28,4 @@ dist-ssr
 .env.local
 .env.development.local
 .env.test.local
-.env.production.localAGENTS.md
-PLANS.md
+.env.production.local

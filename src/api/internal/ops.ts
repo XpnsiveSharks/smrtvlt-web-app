@@ -130,3 +130,92 @@ export function revokeApiKey(keyId: number): Promise<null> {
     method: 'DELETE',
   })
 }
+
+// ── Diagnostics ──
+export interface RedisDiagnosticsResponse {
+  status: string
+  connected: boolean
+  memory_used_mb: number
+  total_keys: number
+  uptime_seconds: number
+  checked_at: string
+}
+
+export interface WebSocketDiagnosticsResponse {
+  total_users: number
+  total_user_connections: number
+  total_vaults: number
+  subscriptions: number
+  online_vaults: string[]
+  checked_at: string
+}
+
+export interface DatabaseDiagnosticsResponse {
+  status: string
+  pool_size: number
+  checked_out: number
+  overflow: number
+  checked_at: string
+}
+
+export function getRedisDiagnostics() {
+  return httpRequest<RedisDiagnosticsResponse>('/api/internal/ops/diagnostics/redis', { method: 'GET' })
+}
+export function getWebSocketDiagnostics() {
+  return httpRequest<WebSocketDiagnosticsResponse>('/api/internal/ops/diagnostics/websockets', { method: 'GET' })
+}
+export function getDatabaseDiagnostics() {
+  return httpRequest<DatabaseDiagnosticsResponse>('/api/internal/ops/diagnostics/database', { method: 'GET' })
+}
+
+// ── Rate Limits ──
+export interface RateLimitViolator {
+  key: string
+  current_count: number
+  ttl_seconds: number
+}
+export interface RateLimitsResponse {
+  total_active_keys: number
+  top_violators: RateLimitViolator[]
+  by_category: Record<string, number>
+  checked_at: string
+}
+export function getRateLimits() {
+  return httpRequest<RateLimitsResponse>('/api/internal/ops/rate-limits', { method: 'GET' })
+}
+
+// ── Sessions ──
+export interface SessionUser {
+  user_id: string
+  token_count: number
+}
+export interface SessionStatsResponse {
+  total_active_tokens: number
+  top_users: SessionUser[]
+  checked_at: string
+}
+export interface RevokeSessionsResponse {
+  user_id: string
+  sessions_revoked: number
+}
+export function getSessionStats() {
+  return httpRequest<SessionStatsResponse>('/api/internal/ops/sessions/stats', { method: 'GET' })
+}
+export function revokeUserSessions(userId: string) {
+  return httpRequest<RevokeSessionsResponse>(`/api/internal/ops/sessions/${userId}`, { method: 'DELETE' })
+}
+
+// ── Email Status ──
+export interface EmailStatusResponse {
+  service: string
+  status: string
+  sent_today: number
+  failed_today: number
+  note: string
+  checked_at: string
+}
+export function getEmailStatus() {
+  return httpRequest<EmailStatusResponse>('/api/internal/ops/notifications/email', { method: 'GET' })
+}
+
+

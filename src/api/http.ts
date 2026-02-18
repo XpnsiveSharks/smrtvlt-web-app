@@ -111,14 +111,38 @@ export async function httpRequest<T>(
   }
 }
 
-export function normalizeApiError(error: unknown): ApiErrorShape {
+export interface EnhancedApiError extends ApiErrorShape {
+  statusText: string
+  retryAfter?: number
+}
+
+export function normalizeApiError(error: unknown): EnhancedApiError {
   if (error instanceof ApiClientError) {
-    return { status: error.status, detail: error.detail }
+    const { status, detail } = error
+    let statusText = detail
+
+    // Provide friendly status-specific messages
+    switch (status) {
+      case 401:
+        statusText = 'Authentication required. Please check your admin token.'
+        break
+      case 403:
+        statusText = 'Access forbidden. You do not have permission to access this resource.'
+        break
+      case 429:
+        statusText = 'Rate limit exceeded. Please wait before retrying.'
+        break
+      case 503:
+        statusText = 'Service temporarily unavailable. Please try again later.'
+        break
+    }
+
+    return { status, detail, statusText }
   }
 
   if (error instanceof Error) {
-    return { status: 0, detail: error.message }
+    return { status: 0, detail: error.message, statusText: 'Network request failed' }
   }
 
-  return { status: 0, detail: 'Unexpected error' }
+  return { status: 0, detail: 'Unexpected error', statusText: 'An unexpected error occurred' }
 }
