@@ -118,7 +118,7 @@ function CreateKeyModal({ onClose, onCreated }: CreateKeyModalProps) {
               value={expiresInDays}
               onChange={(e) => setExpiresInDays(e.target.value)}
               placeholder="Leave empty for no expiry"
-              className="rounded-lg border border-app-border bg-app-surface-2 px-3 py-2 text-app-text outline-none ring-brand/30 focus:ring-2"
+              className="rounded-lg border border-app-border bg-app-surface-2 px-3 py-2 text-app-text outline-none ring-brand/30 focus:ring-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </label>
 
