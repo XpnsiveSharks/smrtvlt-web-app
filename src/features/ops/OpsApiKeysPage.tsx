@@ -1,4 +1,5 @@
 import { type FormEvent, useCallback, useState, type JSX } from 'react'
+import { Check, Copy, CheckCircle2, Key } from 'lucide-react'
 import {
   createApiKey,
   revokeApiKey,
@@ -91,44 +92,59 @@ function CreateKeyModal({ onClose, onCreated }: CreateKeyModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md" onClick={onClose}>
       <div
-        className="w-full max-w-md rounded-2xl border border-app-border bg-app-surface p-6 shadow-xl shadow-black/40"
+        className="w-full max-w-md rounded-2xl border border-app-border border-t-white/10 bg-gradient-to-b from-app-surface to-[#1a1a1a] p-8 shadow-2xl shadow-black/60"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="font-display text-xl text-app-text">Create API Key</h2>
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">
+            <Key size={20} />
+          </div>
+          <h2 className="font-display text-xl text-app-text">Create API Key</h2>
+        </div>
 
-        <form className="mt-4 space-y-4" onSubmit={(e) => void handleSubmit(e)}>
-          <label className="flex flex-col gap-1 text-sm">
-            <span className="text-app-muted">Name</span>
+        <form className="mt-8 space-y-6" onSubmit={(e) => void handleSubmit(e)}>
+          <label className="flex flex-col gap-2">
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-app-muted opacity-70">Name</span>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. mobile-app-prod"
               required
-              className="rounded-lg border border-app-border bg-app-surface-2 px-3 py-2 text-app-text outline-none ring-brand/30 focus:ring-2"
+              className="rounded-xl border border-white/5 bg-black/40 px-4 py-3 text-app-text outline-none transition-all duration-200 placeholder:text-app-muted/40 focus:border-brand/50 focus:ring-2 focus:ring-brand/20"
             />
           </label>
 
-          <label className="flex flex-col gap-1 text-sm">
-            <span className="text-app-muted">Expires in (days, optional)</span>
+          <label className="flex flex-col gap-2">
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-app-muted opacity-70">Expires in (days, optional)</span>
             <input
               type="number"
               min="1"
               value={expiresInDays}
               onChange={(e) => setExpiresInDays(e.target.value)}
               placeholder="Leave empty for no expiry"
-              className="rounded-lg border border-app-border bg-app-surface-2 px-3 py-2 text-app-text outline-none ring-brand/30 focus:ring-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="rounded-xl border border-white/5 bg-black/40 px-4 py-3 font-mono text-app-text outline-none transition-all duration-200 placeholder:text-app-muted/40 focus:border-brand/50 focus:ring-2 focus:ring-brand/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </label>
 
           {error && <ErrorState title="Failed to create key" detail={error} />}
 
-          <div className="flex items-center justify-end gap-2 pt-2">
-            <Button type="button" variant="secondary" onClick={onClose} disabled={submitting}>
+          <div className="flex items-center justify-end gap-3 pt-4">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={onClose}
+              disabled={submitting}
+              className="hover:bg-white/5 border-transparent"
+            >
               Cancel
             </Button>
-            <Button type="submit" isLoading={submitting}>
+            <Button
+              type="submit"
+              isLoading={submitting}
+              className="min-w-[120px] shadow-lg shadow-brand/10"
+            >
               Create
             </Button>
           </div>
@@ -159,35 +175,60 @@ function KeyRevealDialog({ result, onClose }: KeyRevealDialogProps) {
   }, [result.key])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-      <div className="w-full max-w-lg rounded-2xl border border-app-border bg-app-surface p-6 shadow-xl shadow-black/40">
-        <h2 className="font-display text-xl text-app-text">API Key Created</h2>
-        <p className="mt-2 text-sm text-app-muted">
-          Copy this key now. It will not be shown again.
-        </p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="w-full max-w-lg rounded-2xl border border-app-border border-t-white/10 bg-gradient-to-b from-app-surface to-[#1a1a1a] p-8 shadow-2xl shadow-black/60">
+        <div className="mb-6 flex flex-col items-center text-center">
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 text-brand">
+            <CheckCircle2 size={40} />
+          </div>
+          <h2 className="font-display text-2xl text-app-text">API Key Created</h2>
+          <p className="mt-2 text-sm text-app-muted">
+            Copy this key now. It will not be shown again.
+          </p>
+        </div>
 
-        <div className="mt-4 flex items-center gap-2">
-          <code className="flex-1 break-all rounded-lg border border-app-border bg-app-surface-2 px-3 py-2 text-sm text-brand">
+        <div className="group relative mt-6 flex items-center gap-2">
+          <code className="flex-1 break-all rounded-xl border border-brand/30 bg-brand/5 px-4 py-3 font-mono text-sm text-brand transition-colors group-hover:bg-brand/10">
             {result.key}
           </code>
-          <Button variant="secondary" onClick={() => void handleCopy()}>
-            {copied ? 'Copied!' : 'Copy'}
+          <Button
+            variant="secondary"
+            onClick={() => void handleCopy()}
+            className={`min-w-[100px] transition-all active:scale-95 ${copied ? 'border-brand/50 bg-brand/10 text-brand' : ''}`}
+          >
+            {copied ? (
+              <>
+                <Check size={16} className="mr-2" />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Copy size={16} className="mr-2" />
+                Copy
+              </>
+            )}
           </Button>
         </div>
 
-        <dl className="mt-4 space-y-1 text-sm">
-          <div className="flex gap-2">
-            <dt className="text-app-muted">Name:</dt>
-            <dd className="text-app-text">{result.name}</dd>
-          </div>
-          <div className="flex gap-2">
-            <dt className="text-app-muted">Expires:</dt>
-            <dd className="text-app-text">{result.expires_at ? formatDate(result.expires_at, true) : 'Never'}</dd>
-          </div>
-        </dl>
+        <div className="mt-8 rounded-xl border border-app-border bg-white/5 p-4">
+          <dl className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <dt className="font-medium text-app-muted">Name</dt>
+              <dd className="mt-1 font-semibold text-app-text">{result.name}</dd>
+            </div>
+            <div>
+              <dt className="font-medium text-app-muted">Expires</dt>
+              <dd className="mt-1 font-semibold text-app-text">
+                {result.expires_at ? formatDate(result.expires_at, true) : 'Never'}
+              </dd>
+            </div>
+          </dl>
+        </div>
 
-        <div className="mt-6 flex justify-end">
-          <Button onClick={onClose}>Done</Button>
+        <div className="mt-8 flex justify-center">
+          <Button onClick={onClose} className="min-w-[120px]">
+            Done
+          </Button>
         </div>
       </div>
     </div>
@@ -205,12 +246,12 @@ interface RevokeDialogProps {
 
 function RevokeDialog({ keyName, onConfirm, onCancel, revoking }: RevokeDialogProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={onCancel}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={onCancel}>
       <div
-        className="w-full max-w-sm rounded-2xl border border-app-border bg-app-surface p-6 shadow-xl shadow-black/40"
+        className="w-full max-w-sm rounded-2xl border border-app-border border-t-white/10 bg-gradient-to-b from-app-surface to-[#1a1a1a] p-6 shadow-2xl shadow-black/60"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="font-display text-xl text-app-text">Revoke API Key</h2>
+        <h2 className="font-display text-xl text-app-text text-app-danger">Revoke API Key</h2>
         <p className="mt-2 text-sm text-app-muted">
           Are you sure you want to revoke <strong className="text-app-text">{keyName}</strong>? This cannot be undone.
         </p>
@@ -271,19 +312,19 @@ export function OpsApiKeysPage() {
   }
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl text-app-text">API Keys</h1>
-          <p className="mt-1 text-sm text-app-muted">
+          <h1 className="font-display text-3xl tracking-tight text-app-text border-l-2 border-brand pl-4">API Keys</h1>
+          <p className="mt-1 text-sm text-app-muted ml-4 opacity-80">
             Manage API keys for programmatic access.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="secondary" onClick={() => void refetch()} isLoading={loading}>
+        <div className="flex items-center gap-3">
+          <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-white/5 hover:bg-white/5">
             Refresh
           </Button>
-          <Button onClick={() => setShowCreateModal(true)}>Create Key</Button>
+          <Button onClick={() => setShowCreateModal(true)} className="shadow-lg shadow-brand/10">Create Key</Button>
         </div>
       </header>
 
@@ -291,91 +332,103 @@ export function OpsApiKeysPage() {
         <ErrorState title="Failed to revoke key" detail={revokeError} />
       )}
 
-      <Card>
-        {loading && <LoadingState label="Loading API keys..." />}
+      <div className="relative group/card">
+        {/* Decorative Gradient Bleed */}
+        <div className="absolute -top-[1px] left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-brand/40 to-transparent z-10 opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
+        
+        <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60">
+          {loading && <div className="p-8"><LoadingState label="Loading API keys..." /></div>}
 
-        {!loading && error && (
-          <div className="space-y-3">
-            <ErrorState title="Failed to load API keys" detail={error} />
-            <Button variant="secondary" onClick={() => void refetch()}>
-              Retry
-            </Button>
-          </div>
-        )}
+          {!loading && error && (
+            <div className="p-8 space-y-4 flex flex-col items-center">
+              <ErrorState title="Failed to load API keys" detail={error} />
+              <Button variant="secondary" onClick={() => void refetch()}>
+                Retry
+              </Button>
+            </div>
+          )}
 
-        {!loading && !error && (
-          <>
-            {(data?.items?.length ?? 0) === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-lg border border-app-border bg-app-surface-2 py-8 px-4 text-center">
-                <div className="mb-2 text-sm text-app-muted">No API keys found</div>
-                <p className="text-xs text-app-muted/70">Create your first API key to get started.</p>
-              </div>
-            ) : (
-              <div className="overflow-x-auto rounded-lg border border-app-border">
-                <table className="min-w-full divide-y divide-app-border text-sm">
-                  <thead className="bg-app-surface-2 bg-gradient-to-b from-white/5 to-transparent">
-                    <tr className="text-left text-app-muted">
-                      <th className="px-3 py-2 font-medium">Name</th>
-                      <th className="px-3 py-2 font-medium">Created By</th>
-                      <th className="px-3 py-2 font-medium">Created</th>
-                      <th className="px-3 py-2 font-medium">Last Used</th>
-                      <th className="px-3 py-2 font-medium">Expires</th>
-                      <th className="px-3 py-2 font-medium">Status</th>
-                      <th className="px-3 py-2 font-medium" />
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-app-border bg-app-surface">
-                    {data?.items.map((item) => (
-                      <tr key={item.id} className="hover:bg-white/5">
-                        <td className="px-3 py-2 font-medium text-app-text">{item.name}</td>
-                        <td className="px-3 py-2 text-app-text">{item.created_by}</td>
-                        <td className="whitespace-nowrap px-3 py-2 text-app-text">
-                          {formatDate(item.created_at, true)}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-2">
-                          {item.last_used_at ? (
-                            formatDate(item.last_used_at, true)
-                          ) : (
-                            <span className="inline-block rounded-full bg-app-muted/20 px-2 py-0.5 text-xs text-app-muted">
-                              Never
-                            </span>
-                          )}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-2 text-app-text">
-                          {formatDate(item.expires_at, true)}
-                        </td>
-                        <td className="px-3 py-2">
-                          {item.is_active ? (
-                            <span className="inline-block rounded-full bg-brand/20 px-2 py-0.5 text-xs font-semibold text-brand">
-                              Active
-                            </span>
-                          ) : (
-                            <span className="inline-block rounded-full bg-app-danger/20 px-2 py-0.5 text-xs font-semibold text-app-danger">
-                              Revoked
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-3 py-2 text-right">
-                          {item.is_active && (
-                            <button
-                              type="button"
-                              className="text-xs text-app-danger hover:underline"
-                              onClick={() => setRevokeTarget({ id: item.id, name: item.name })}
-                            >
-                              Revoke
-                            </button>
-                          )}
-                        </td>
+          {!loading && !error && (
+            <>
+              {(data?.items?.length ?? 0) === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 px-4 text-center bg-app-bg/20">
+                  <div className="w-12 h-12 rounded-full bg-brand/5 border border-brand/10 flex items-center justify-center mb-4">
+                    <div className="w-2 h-2 rounded-full bg-brand/40" />
+                  </div>
+                  <div className="mb-1 text-app-text font-semibold">No API keys found</div>
+                  <p className="text-sm text-app-muted/70">Create your first API key to get started.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-white/[0.03] text-sm">
+                    <thead className="bg-white/[0.02]">
+                      <tr className="text-left">
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Name</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Created By</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Created</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Last Used</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Expires</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60 text-center">Status</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60" />
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </>
-        )}
-      </Card>
-
+                    </thead>
+                    <tbody className="divide-y divide-white/[0.03]">
+                      {data?.items.map((item) => (
+                        <tr key={item.id} className="group hover:bg-white/[0.02] transition-colors duration-200">
+                          <td className="px-6 py-4 font-bold text-brand">{item.name}</td>
+                          <td className="px-6 py-4 text-app-text/80">{item.created_by}</td>
+                          <td className="whitespace-nowrap px-6 py-4 text-app-muted text-xs">
+                            {formatDate(item.created_at, true)}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            {item.last_used_at ? (
+                              <span className="text-app-text/80 text-xs">{formatDate(item.last_used_at, true)}</span>
+                            ) : (
+                              <span className="inline-block rounded border border-white/5 bg-white/[0.03] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-app-muted/60 italic">
+                                Never
+                              </span>
+                            )}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-app-muted text-xs">
+                            {formatDate(item.expires_at, true)}
+                          </td>
+                          <td className="px-6 py-4 text-center">
+                            {item.is_active ? (
+                              <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/30 bg-brand/5 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-brand shadow-[0_0_10px_rgba(var(--color-brand),0.1)]">
+                                <span className="relative flex h-1.5 w-1.5">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand"></span>
+                                </span>
+                                Active
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1.5 rounded-full border border-app-danger/30 bg-app-danger/5 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-app-danger opacity-60">
+                                <span className="h-1.5 w-1.5 rounded-full bg-app-danger" />
+                                Revoked
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            {item.is_active && (
+                              <button
+                                type="button"
+                                className="text-[10px] font-black uppercase tracking-widest text-app-danger opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 px-3 py-1 border border-app-danger/20 rounded hover:bg-app-danger/10 shadow-lg shadow-app-danger/5"
+                                onClick={() => setRevokeTarget({ id: item.id, name: item.name })}
+                              >
+                                Revoke
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </>
+          )}
+        </Card>
+      </div>
       {/* Modals */}
       {showCreateModal && (
         <CreateKeyModal

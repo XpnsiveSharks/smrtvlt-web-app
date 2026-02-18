@@ -1,5 +1,4 @@
 import { useEmailStatus } from './hooks/useEmailStatus'
-import { StatusBadge } from '../../components/ui/StatusBadge'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { ErrorState } from '../../components/ui/ErrorState'
 
@@ -26,52 +25,70 @@ export function OpsEmailStatusPage() {
   const { data, loading, error, refetch } = useEmailStatus()
   
   return (
-    <div>
-      <h1 className="font-display text-2xl mb-6 text-app-text">Email Status</h1>
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+      <h1 className="font-display text-3xl mb-8 tracking-tight text-app-text border-l-2 border-brand pl-4">Email Status</h1>
       
       {loading && <LoadingState label="Loading email status..." />}
       {error && <ErrorState detail={error} onRetry={refetch} />}
       
       {data && (
-        <div className="bg-app-surface-2 rounded-lg p-6 shadow-lg shadow-black/20">
-          <div className="bg-gradient-to-b from-brand/5 to-transparent rounded-t-lg -mt-6 -mx-6 pt-6 px-6 pb-2" />
+        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-2xl shadow-black/40 border border-white/[0.05] relative overflow-hidden group">
+          {/* Atmospheric Depth */}
+          <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-brand/10 to-transparent pointer-events-none" />
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-brand/5 rounded-full blur-3xl pointer-events-none" />
           
-          {/* Primary metrics card */}
-          <div className="bg-app-surface rounded-lg p-4 border border-app-border/50 mb-6">
-            <div className="text-[11px] uppercase tracking-wider text-brand mb-3 font-semibold">Service Status</div>
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <div className="text-[11px] uppercase tracking-wider text-app-muted mb-2">Service</div>
-                <div className="font-mono text-lg text-app-text">{data.service}</div>
-              </div>
-              
-              <div>
-                <div className="text-[11px] uppercase tracking-wider text-app-muted mb-2">Status</div>
-                <div className="mt-1">
-                  <StatusBadge status={data.status} />
+          <div className="relative z-10">
+            {/* P2: Service Status Heartbeat */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 bg-app-bg/40 backdrop-blur-md rounded-xl p-6 border border-white/5 shadow-inner">
+              <div className="flex items-center gap-4">
+                <div className="flex flex-col">
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-app-muted mb-1 font-bold">Service Component</span>
+                  <span className="font-display text-2xl font-black text-app-text tracking-tight uppercase">{data.service}</span>
                 </div>
               </div>
+              
+              <div className="flex items-center gap-3 bg-app-surface-2/50 px-4 py-2.5 rounded-lg border border-white/5">
+                <div className={`w-3 h-3 rounded-full ${data.status.toLowerCase() === 'healthy' ? 'bg-emerald-500 animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.5)]' : 'bg-app-danger'}`} />
+                <span className="text-[11px] uppercase tracking-[0.1em] font-bold text-app-text">{data.status}</span>
+              </div>
             </div>
-          </div>
 
-          {/* Secondary metrics */}
-          <div className="text-[11px] uppercase tracking-wider text-brand mb-3 font-semibold">Email Activity</div>
-          <div className="grid grid-cols-2 gap-6">
-            <Metric label="Sent Today" value={data.sent_today} isPrimary />
-            <Metric 
-              label="Failed Today" 
-              value={data.failed_today} 
-              isPrimary
-              semanticValue={data.failed_today > 0 ? 'danger' : 'success'}
-            />
-            <Metric label="Checked At" value={data.checked_at} isTimestamp />
-          </div>
-          
-          {data.note && (
-            <div className="mt-6 bg-app-surface rounded-lg p-3 border border-app-border/50 text-sm text-app-muted">
-              {data.note}
+            {/* P1: Hero KPI Elevation */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-200 fill-mode-both">
+                <Metric 
+                  label="Sent Today" 
+                  value={data.sent_today} 
+                  isPrimary 
+                  className="bg-app-bg/30 p-6 rounded-2xl border border-white/5 hover:border-brand/20 transition-colors shadow-lg"
+                />
+              </div>
+              <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-400 fill-mode-both">
+                <Metric 
+                  label="Failed Today" 
+                  value={data.failed_today} 
+                  isPrimary
+                  semanticValue={data.failed_today > 0 ? 'danger' : 'success'}
+                  className="bg-app-bg/30 p-6 rounded-2xl border border-white/5 hover:border-brand/20 transition-colors shadow-lg"
+                />
+              </div>
             </div>
-          )}
+            
+            {data.note && (
+              <div className="bg-app-surface rounded-xl p-4 border border-app-border/40 text-sm text-app-muted italic flex items-start gap-3">
+                <span className="text-brand font-bold">Note:</span>
+                {data.note}
+              </div>
+            )}
+
+            {/* P4: Refined Grid & Grouping */}
+            <div className="mt-12 flex justify-end">
+              <div className="flex items-center gap-2 opacity-40 hover:opacity-80 transition-opacity">
+                <span className="text-[10px] uppercase tracking-widest font-bold">Last Check:</span>
+                <span className="font-mono text-[10px]">{formatRelativeTime(data.checked_at)}</span>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -83,13 +100,15 @@ function Metric({
   value, 
   isTimestamp,
   isPrimary = false,
-  semanticValue
+  semanticValue,
+  className
 }: { 
   label: string
   value: string | number | boolean | null | undefined
   isTimestamp?: boolean
   isPrimary?: boolean
   semanticValue?: 'success' | 'warning' | 'danger'
+  className?: string
 }) {
   const displayValue = isTimestamp && typeof value === 'string' 
     ? formatRelativeTime(value) 
@@ -102,20 +121,20 @@ function Metric({
   const getSemanticColor = () => {
     if (!semanticValue) return 'text-app-text'
     switch (semanticValue) {
-      case 'success': return 'text-emerald-400'
-      case 'warning': return 'text-amber-400'
-      case 'danger': return 'text-app-danger'
+      case 'success': return 'text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.15)]'
+      case 'warning': return 'text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.15)]'
+      case 'danger': return 'text-app-danger drop-shadow-[0_0_15px_rgba(239,68,68,0.2)]'
       default: return 'text-app-text'
     }
   }
   
   return (
-    <div>
-      <div className={`text-[11px] uppercase tracking-wider mb-2 ${isPrimary ? 'font-semibold text-app-text' : 'text-app-muted'}`}>
+    <div className={className}>
+      <div className={`text-[10px] uppercase tracking-[0.2em] mb-4 ${isPrimary ? 'font-bold text-app-text/60' : 'text-app-muted'}`}>
         {label}
       </div>
       <div 
-        className={`font-mono ${isPrimary ? 'text-2xl font-display' : 'text-lg'} ${getSemanticColor()}`}
+        className={`leading-none ${isPrimary ? 'text-6xl font-display font-black tracking-tighter' : 'text-xl font-mono'} ${getSemanticColor()}`}
         title={title}
       >
         {displayValue}
