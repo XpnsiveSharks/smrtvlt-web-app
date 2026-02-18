@@ -167,7 +167,7 @@ function KeyRevealDialog({ result, onClose }: KeyRevealDialogProps) {
         </p>
 
         <div className="mt-4 flex items-center gap-2">
-          <code className="flex-1 overflow-x-auto rounded-lg border border-app-border bg-app-surface-2 px-3 py-2 text-sm text-brand">
+          <code className="flex-1 break-all rounded-lg border border-app-border bg-app-surface-2 px-3 py-2 text-sm text-brand">
             {result.key}
           </code>
           <Button variant="secondary" onClick={() => void handleCopy()}>
