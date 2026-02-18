@@ -1,9 +1,65 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
+import { 
+  Activity, 
+  Lock, 
+  ShieldAlert, 
+  Key, 
+  Users, 
+  RefreshCcw, 
+  History,
+  ChevronDown,
+  Clock
+} from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { useBusinessActivity } from './hooks/useBusinessActivity'
+
+interface KPITileProps {
+  label: string
+  value: string | number
+  icon: ReactNode
+  trend?: string
+  variant?: 'default' | 'danger' | 'brand'
+  delay?: string
+}
+
+function KPITile({ label, value, icon, variant = 'default', delay = '0ms' }: KPITileProps) {
+  const variantStyles = {
+    default: 'text-app-text border-white/5 bg-black/20',
+    danger: 'text-red-400 border-red-500/20 bg-red-500/5',
+    brand: 'text-brand border-brand/20 bg-brand/5',
+  }
+
+  const iconStyles = {
+    default: 'bg-white/5 text-app-muted',
+    danger: 'bg-red-500/10 text-red-400',
+    brand: 'bg-brand/10 text-brand',
+  }
+
+  return (
+    <div 
+      className={`relative overflow-hidden rounded-2xl border p-4 shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-black/40 animate-in fade-in slide-in-from-bottom-2 ${variantStyles[variant]}`}
+      style={{ animationDelay: delay, animationFillMode: 'both' }}
+    >
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">{label}</p>
+          <p className="mt-2 font-display text-2xl font-bold leading-none tracking-tight">
+            {value}
+          </p>
+        </div>
+        <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${iconStyles[variant]}`}>
+          {icon}
+        </div>
+      </div>
+      <div className="absolute -bottom-2 -right-2 opacity-[0.03]">
+        {icon}
+      </div>
+    </div>
+  )
+}
 
 export function BusinessActivityPage() {
   const [selectedHours, setSelectedHours] = useState(24)
@@ -15,32 +71,37 @@ export function BusinessActivityPage() {
   }
 
   return (
-    <section className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-3">
+    <section className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl text-app-text">Business Activity</h1>
-          <p className="mt-1 text-sm text-app-muted">Recent vault and user activity log.</p>
+          <h1 className="font-display text-3xl tracking-tight text-app-text border-l-2 border-brand pl-4">Business Activity</h1>
+          <p className="mt-1 text-sm text-app-muted ml-4 opacity-80">Recent vault and user activity log.</p>
         </div>
-        <div className="flex items-center gap-2">
-          <select
-            value={selectedHours}
-            onChange={(e) => handleHoursChange(Number(e.target.value))}
-            className="rounded-lg border border-app-border bg-app-surface px-3 py-2 text-sm text-app-text focus:border-brand focus:outline-none"
-            disabled={loading}
-          >
-            <option value={1}>Last hour</option>
-            <option value={6}>Last 6 hours</option>
-            <option value={24}>Last 24 hours</option>
-            <option value={72}>Last 3 days</option>
-            <option value={168}>Last week</option>
-          </select>
-          <Button variant="secondary" onClick={() => void refetch()} isLoading={loading}>
+        <div className="flex items-center gap-3">
+          <div className="relative group">
+            <select
+              value={selectedHours}
+              onChange={(e) => handleHoursChange(Number(e.target.value))}
+              className="appearance-none rounded-xl border border-white/10 bg-black/40 pl-10 pr-10 py-2.5 text-sm text-app-text transition-all focus:border-brand/50 focus:outline-none focus:ring-2 focus:ring-brand/20"
+              disabled={loading}
+            >
+              <option value={1}>Last hour</option>
+              <option value={6}>Last 6 hours</option>
+              <option value={24}>Last 24 hours</option>
+              <option value={72}>Last 3 days</option>
+              <option value={168}>Last week</option>
+            </select>
+            <Clock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-app-muted" />
+            <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-app-muted pointer-events-none group-focus-within:rotate-180 transition-transform" />
+          </div>
+          <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-white/5 hover:bg-white/5">
+            <RefreshCcw size={16} className={`mr-2 ${loading ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
         </div>
       </header>
 
-      {loading && <LoadingState label="Loading business activity..." />}
+      {loading && <div className="py-12"><LoadingState label="Synchronizing activity data..." /></div>}
 
       {!loading && error && (
         <ErrorState
@@ -52,90 +113,123 @@ export function BusinessActivityPage() {
       )}
 
       {!loading && !error && data && (
-        <>
-          {/* Summary Card */}
-          <Card>
-            <p className="font-display text-lg text-app-text">Activity Summary</p>
-            <p className="text-xs text-app-muted mt-1">Last {data.period_hours} hours</p>
-            <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 gap-4 text-sm">
-              <div>
-                <p className="text-app-muted">Total events</p>
-                <p className="mt-1 text-xl font-bold text-app-text">
-                  {data.summary.total_events.toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <p className="text-app-muted">Vault unlocks</p>
-                <p className="mt-1 text-xl font-bold text-app-text">
-                  {data.summary.vault_unlocks.toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <p className="text-app-muted">Failed unlocks</p>
-                <p className="mt-1 text-xl font-bold text-red-400">
-                  {data.summary.failed_unlocks.toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <p className="text-app-muted">PIN operations</p>
-                <p className="mt-1 text-xl font-bold text-app-text">
-                  {data.summary.pin_operations.toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <p className="text-app-muted">Member changes</p>
-                <p className="mt-1 text-xl font-bold text-app-text">
-                  {data.summary.member_changes.toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <p className="text-app-muted">State changes</p>
-                <p className="mt-1 text-xl font-bold text-app-text">
-                  {data.summary.state_changes.toLocaleString()}
-                </p>
-              </div>
-            </div>
-          </Card>
+        <div className="space-y-8">
+          {/* Summary Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <KPITile 
+              label="Total events" 
+              value={data.summary.total_events.toLocaleString()} 
+              icon={<Activity size={18} />}
+              delay="0ms"
+            />
+            <KPITile 
+              label="Vault unlocks" 
+              value={data.summary.vault_unlocks.toLocaleString()} 
+              icon={<Lock size={18} />}
+              delay="50ms"
+            />
+            <KPITile 
+              label="Failed unlocks" 
+              value={data.summary.failed_unlocks.toLocaleString()} 
+              icon={<ShieldAlert size={18} />}
+              variant={data.summary.failed_unlocks > 0 ? 'danger' : 'default'}
+              delay="100ms"
+            />
+            <KPITile 
+              label="PIN operations" 
+              value={data.summary.pin_operations.toLocaleString()} 
+              icon={<Key size={18} />}
+              delay="150ms"
+            />
+            <KPITile 
+              label="Member changes" 
+              value={data.summary.member_changes.toLocaleString()} 
+              icon={<Users size={18} />}
+              delay="200ms"
+            />
+            <KPITile 
+              label="State changes" 
+              value={data.summary.state_changes.toLocaleString()} 
+              icon={<RefreshCcw size={18} />}
+              delay="250ms"
+            />
+          </div>
 
           {/* Activity Entries */}
-          <Card>
-            <p className="font-display text-lg text-app-text mb-4">Recent Entries</p>
-            {data.entries.length === 0 ? (
-              <p className="text-sm text-app-muted">No activity in this period.</p>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-app-border">
-                      <th className="py-2 text-left text-app-muted font-semibold">ID</th>
-                      <th className="py-2 text-left text-app-muted font-semibold">Action</th>
-                      <th className="py-2 text-left text-app-muted font-semibold">Method</th>
-                      <th className="py-2 text-left text-app-muted font-semibold">Vault ID</th>
-                      <th className="py-2 text-left text-app-muted font-semibold">User ID</th>
-                      <th className="py-2 text-left text-app-muted font-semibold">Created</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.entries.map((entry) => (
-                      <tr key={entry.id} className="border-b border-app-border/50 hover:bg-white/5">
-                        <td className="py-2 font-mono text-xs text-app-text">{entry.id}</td>
-                        <td className="py-2 text-app-text">{entry.action}</td>
-                        <td className="py-2 text-app-muted">{entry.method}</td>
-                        <td className="py-2 font-mono text-xs text-app-text">{entry.vault_id}</td>
-                        <td className="py-2 font-mono text-xs text-app-muted">
-                          {entry.user_id ?? '-'}
-                        </td>
-                        <td className="py-2 text-xs text-app-muted">
-                          {new Date(entry.created_at).toLocaleString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+          <div className="relative group/card">
+            <div className="absolute -top-[1px] left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-brand/40 to-transparent z-10 opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
+            
+            <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60">
+              <div className="bg-white/[0.02] border-b border-white/[0.03] px-6 py-4 flex items-center justify-between">
+                <div>
+                  <h2 className="font-display text-lg text-app-text">Recent Entries</h2>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-app-muted opacity-60">Last {data.period_hours} hours</p>
+                </div>
+                <div className="h-8 w-8 rounded-full bg-white/[0.03] flex items-center justify-center border border-white/5">
+                  <History size={16} className="text-app-muted" />
+                </div>
               </div>
-            )}
-          </Card>
-        </>
+
+              {data.entries.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-app-bg/20">
+                  <div className="w-16 h-16 rounded-full bg-white/[0.02] border border-white/5 flex items-center justify-center mb-6">
+                    <History size={32} className="text-app-muted opacity-20" />
+                  </div>
+                  <div className="text-app-text font-semibold text-lg">No activity recorded</div>
+                  <p className="text-sm text-app-muted/70 max-w-xs mx-auto mt-2">
+                    We haven't detected any events in the selected time range. Try increasing the period.
+                  </p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-white/[0.01]">
+                        <th className="px-6 py-4 text-left font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">ID</th>
+                        <th className="px-6 py-4 text-left font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Action</th>
+                        <th className="px-6 py-4 text-left font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60 text-center">Method</th>
+                        <th className="px-6 py-4 text-left font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Vault ID</th>
+                        <th className="px-6 py-4 text-left font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60 text-right">Created</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/[0.03]">
+                      {data.entries.map((entry) => (
+                        <tr key={entry.id} className="group hover:bg-white/[0.02] transition-colors duration-200">
+                          <td className="px-6 py-4 font-mono text-[10px] text-app-muted/50 group-hover:text-app-muted transition-colors">#{entry.id}</td>
+                          <td className="px-6 py-4">
+                            <span className="inline-flex items-center gap-2 font-semibold text-app-text group-hover:text-brand transition-colors">
+                              <span className={`h-1.5 w-1.5 rounded-full ${entry.action.includes('fail') ? 'bg-red-400' : 'bg-brand'}`} />
+                              {entry.action}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-center">
+                            <span className="inline-block rounded border border-white/5 bg-white/[0.03] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-app-muted/80">
+                              {entry.method}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex flex-col">
+                              <span className="font-mono text-xs text-app-text">V-{entry.vault_id}</span>
+                              <span className="text-[10px] text-app-muted opacity-50 font-mono">U-{entry.user_id ?? 'ANON'}</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 text-right text-xs text-app-muted whitespace-nowrap">
+                            {new Date(entry.created_at).toLocaleString(undefined, {
+                              month: 'short',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </Card>
+          </div>
+        </div>
       )}
     </section>
   )

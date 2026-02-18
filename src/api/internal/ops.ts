@@ -211,7 +211,7 @@ export interface EmailStatusResponse {
   status: string
   sent_today: number
   failed_today: number
-  note: string
+  note: string | null
   checked_at: string
 }
 export function getEmailStatus() {
