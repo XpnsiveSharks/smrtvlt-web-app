@@ -19,7 +19,7 @@ function MetricRow({ label, value, valueClassName }: MetricRowProps) {
   return (
     <div className="flex items-center justify-between py-2">
       <span className="text-sm text-slate-400">{label}</span>
-      <span className={`text-sm font-mono font-medium text-slate-50 ${valueClassName ?? ''}`}>
+      <span className={`text-base md:text-sm font-mono font-medium text-slate-50 ${valueClassName ?? ''}`}>
         {typeof value === 'number' ? value.toLocaleString() : value}
       </span>
     </div>
@@ -55,7 +55,7 @@ export function OverviewScreen() {
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Business Card */}
         <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
           <SectionTitle>Business</SectionTitle>

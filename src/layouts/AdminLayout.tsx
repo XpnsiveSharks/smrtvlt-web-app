@@ -4,6 +4,8 @@ import {
   ActivitySquare,
   Briefcase,
   ChartLine,
+  ChevronDown,
+  ChevronLeft,
   ChevronRight,
   Circle,
   ClipboardList,
@@ -23,7 +25,25 @@ import { clearAdminToken } from '../auth/tokenStore'
 export function AdminLayout() {
   const [isNavOpen, setIsNavOpen] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    Operations: false,
+    Business: false,
+    Security: false,
+  })
   const navigate = useNavigate()
+
+  const toggleSection = (heading: string) => {
+    setExpandedSections((prev) => {
+      const isCurrentlyExpanded = prev[heading]
+      // Close all sections
+      const allClosed = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false
+        return acc
+      }, {} as Record<string, boolean>)
+      // If the clicked section was closed, open it; otherwise keep all closed
+      return { ...allClosed, [heading]: !isCurrentlyExpanded }
+    })
+  }
 
   const navSections = useMemo(
     () => [
@@ -55,6 +75,15 @@ export function AdminLayout() {
     []
   )
 
+  // Filter navigation for collapsed state: show only Ops Summary and Overview
+  const collapsedNavItems = useMemo(
+    () => [
+      { label: 'Ops Summary', to: '/ops/summary', icon: LayoutGrid },
+      { label: 'Overview', to: '/business/overview', icon: Briefcase },
+    ],
+    []
+  )
+
   function handleSignOut() {
     clearAdminToken()
     navigate('/login', { replace: true })
@@ -81,10 +110,10 @@ export function AdminLayout() {
       >
         <div
           className={`flex h-full flex-col ${
-            desktopCollapsed ? 'items-center justify-center gap-8' : ''
+            desktopCollapsed ? 'items-center' : ''
           }`}
         >
-          <div className={`flex items-center ${desktopCollapsed ? 'justify-center gap-3' : 'justify-between'}`}>
+          <div className={`flex items-center min-h-[56px] ${desktopCollapsed ? 'justify-center' : 'justify-between'}`}>
             <div className="flex items-center gap-3">
               {desktopCollapsed ? (
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-app-surface-2 transition-colors duration-200">
@@ -99,74 +128,114 @@ export function AdminLayout() {
             </div>
           </div>
 
-          <nav className={desktopCollapsed ? 'flex flex-col items-center gap-2.5' : 'mt-8 flex-1 space-y-6'}>
-            {navSections.map((section) => (
-              <div key={section.heading} className={desktopCollapsed ? 'flex flex-col items-center gap-1.5' : 'space-y-1'}>
-                {!desktopCollapsed && (
-                  <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-app-muted/90">
-                    {section.heading}
-                  </p>
-                )}
-                {section.items.map((item) => {
-                  const Icon = item.icon
-                  return (
-                    <NavLink
-                      key={item.to}
-                      to={item.to}
-                      onClick={() => setIsNavOpen(false)}
-                      className={({ isActive }) =>
-                        `${desktopCollapsed ? 'inline-flex' : 'block'} ${desktopCollapsed ? 'rounded-full' : 'rounded-lg'} ${
-                          desktopCollapsed ? 'h-9 w-9 items-center justify-center' : 'px-3 py-2'
-                        } text-sm font-medium transition-colors duration-150 ${
-                          isActive
-                            ? 'bg-brand text-app-bg'
-                            : 'text-app-text hover:bg-app-surface-2 hover:text-brand'
-                        }`
-                      }
-                    >
-                      {desktopCollapsed ? (
-                        <Icon className="h-4 w-4 shrink-0" strokeWidth={2.25} />
-                      ) : (
-                        <span className="flex h-11 items-center gap-3 text-sm">
-                          <Icon className="h-5 w-5 shrink-0" strokeWidth={2.25} />
-                          <span>{item.label}</span>
-                        </span>
-                      )}
-                    </NavLink>
-                  )
-                })}
-              </div>
-            ))}
+          <nav className={desktopCollapsed ? 'mt-6 flex flex-col items-center gap-2.5' : 'mt-8 flex-1 space-y-4'}>
+            {desktopCollapsed ? (
+              // Collapsed state: show only Ops Summary and Overview
+              collapsedNavItems.map((item) => {
+                const Icon = item.icon
+                return (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    onClick={() => setIsNavOpen(false)}
+                    className={({ isActive }) =>
+                      `inline-flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium transition-all duration-150 ${
+                        isActive
+                          ? 'bg-brand text-app-bg'
+                          : 'text-app-text hover:bg-app-surface-2 hover:text-brand'
+                      }`
+                    }
+                  >
+                    <Icon className="h-4 w-4 shrink-0" strokeWidth={2} />
+                  </NavLink>
+                )
+              })
+            ) : (
+              // Expanded state: show all sections
+              navSections.map((section) => (
+                <div key={section.heading} className="space-y-1">
+                  <button
+                    type="button"
+                    onClick={() => toggleSection(section.heading)}
+                    className="flex w-full items-center justify-between px-3 text-[11px] font-bold uppercase tracking-[0.22em] text-app-muted/90 transition-colors hover:text-app-text focus:outline-none"
+                  >
+                    <span className="mb-1.5">{section.heading}</span>
+                    <ChevronDown
+                      className={`h-3 w-3 transition-transform duration-200 ${
+                        expandedSections[section.heading] ? 'rotate-0' : '-rotate-90'
+                      }`}
+                      strokeWidth={2}
+                    />
+                  </button>
+                  <div
+                    className={`space-y-1 overflow-hidden transition-all duration-200 ${
+                      expandedSections[section.heading]
+                        ? 'max-h-[1000px] opacity-100'
+                        : 'max-h-0 opacity-0'
+                    }`}
+                  >
+                    {section.items.map((item, index) => {
+                      const Icon = item.icon
+                      return (
+                        <NavLink
+                          key={item.to}
+                          to={item.to}
+                          onClick={() => setIsNavOpen(false)}
+                          style={{
+                            transitionDelay: expandedSections[section.heading] ? `${index * 30}ms` : '0ms',
+                          }}
+                          className={({ isActive }) =>
+                            `block rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-150 ${
+                              isActive
+                                ? 'bg-brand text-app-bg'
+                                : 'text-app-text hover:bg-app-surface-2 hover:text-brand'
+                            }`
+                          }
+                        >
+                          <span className="flex h-9 items-center gap-3 text-sm">
+                            <Icon className="h-4 w-4 shrink-0" strokeWidth={2} />
+                            <span>{item.label}</span>
+                          </span>
+                        </NavLink>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))
+            )}
           </nav>
 
-          {desktopCollapsed && (
-            <div className="flex justify-center">
+          <div className="absolute bottom-4 right-4 md:right-3">
+            {desktopCollapsed ? (
               <button
                 type="button"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-app-border bg-app-surface-2 text-app-text transition hover:bg-app-surface"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-app-border bg-app-surface-2 text-app-text transition-all duration-300 hover:bg-app-surface"
                 onClick={() => setIsCollapsed(false)}
                 aria-label="Open navigation"
               >
-                <ChevronRight className="h-3 w-3" />
+                <ChevronRight className="h-3 w-3 transition-transform duration-300" />
               </button>
-            </div>
-          )}
-
-          {(!desktopCollapsed || mobileNavOpen) && (
-            <div className="absolute bottom-4 right-4 md:right-3">
+            ) : (
               <button
                 type="button"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-app-border bg-app-surface-2 text-app-text transition hover:bg-app-surface"
-                onClick={() => {
-                  if (typeof window !== 'undefined' && window.innerWidth < 768) {
-                    setIsNavOpen(false)
-                  } else {
-                    setIsCollapsed(true)
-                  }
-                }}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-app-border bg-app-surface-2 text-app-text transition-all duration-300 hover:bg-app-surface md:hidden"
+                onClick={() => setIsNavOpen(false)}
                 aria-label="Close navigation"
               >
-                <X className="h-4 w-4" />
+                <X className="h-4 w-4 transition-transform duration-300" />
+              </button>
+            )}
+          </div>
+
+          {!desktopCollapsed && (
+            <div className="absolute bottom-4 right-4 hidden md:block md:right-3">
+              <button
+                type="button"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-app-border bg-app-surface-2 text-app-text transition-all duration-300 hover:bg-app-surface"
+                onClick={() => setIsCollapsed(true)}
+                aria-label="Collapse navigation"
+              >
+                <ChevronLeft className="h-3 w-3 transition-transform duration-300" />
               </button>
             </div>
           )}
