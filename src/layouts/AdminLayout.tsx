@@ -18,7 +18,9 @@ import {
   X,
 } from 'lucide-react'
 import { Button } from '../components/ui/Button'
+import { NotificationBell } from '../components/ui/NotificationBell'
 import { clearAdminToken } from '../auth/tokenStore'
+import { useSecurityAlerts } from '../features/security/hooks/useSecurityAlerts'
 
 export function AdminLayout() {
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -29,6 +31,7 @@ export function AdminLayout() {
     Security: true,
   })
   const navigate = useNavigate()
+  const { data } = useSecurityAlerts()
 
   const toggleSection = (heading: string) => {
     setExpandedSections((prev) => ({ ...prev, [heading]: !prev[heading] }))
@@ -232,13 +235,16 @@ export function AdminLayout() {
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-app-muted">Authenticated Ops Node</p>
             </div>
           </div>
-          <Button 
-            variant="secondary" 
-            onClick={handleSignOut}
-            className="h-9 px-4 text-xs font-bold uppercase tracking-widest border-white/5 hover:bg-app-danger hover:text-white hover:border-app-danger transition-all"
-          >
-            Sign out
-          </Button>
+          <div className="flex items-center gap-2">
+            <NotificationBell alerts={data?.active_alerts ?? []} />
+            <Button
+              variant="secondary"
+              onClick={handleSignOut}
+              className="h-9 px-4 text-xs font-bold uppercase tracking-widest border-white/5 hover:bg-app-danger hover:text-white hover:border-app-danger transition-all"
+            >
+              Sign out
+            </Button>
+          </div>
         </header>
         <main className="flex-1 p-6 lg:p-10 max-w-[1600px] mx-auto w-full">
           <Outlet />
