@@ -64,6 +64,7 @@ export async function httpRequest<T>(
 
   const headers = new Headers(requestInit.headers)
   headers.set('Accept', 'application/json')
+  headers.set('ngrok-skip-browser-warning', 'true')
 
   if (requestInit.body && !(requestInit.body instanceof FormData) && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json')
