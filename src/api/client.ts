@@ -229,56 +229,56 @@ export interface CreatedApiKeyResponse {
 export const client = {
   // Business
   getBusinessOverview: () =>
-    apiFetch<BusinessOverviewResponse>('/api/internal/business/overview'),
+    apiFetch<BusinessOverviewResponse>('/internal/business/overview'),
 
   getBusinessTrends: (days = 30) =>
-    apiFetch<BusinessTrendsResponse>(`/api/internal/business/trends?days=${days}`),
+    apiFetch<BusinessTrendsResponse>(`/internal/business/trends?days=${days}`),
 
   getActivity: (hours = 24, limit = 50) =>
-    apiFetch<unknown>(`/api/internal/business/activity?hours=${hours}&limit=${limit}`),
+    apiFetch<unknown>(`/internal/business/activity?hours=${hours}&limit=${limit}`),
 
   // Security
   getSecurityAlerts: () =>
-    apiFetch<SecurityAlertsResponse>('/api/internal/security/alerts'),
+    apiFetch<SecurityAlertsResponse>('/internal/security/alerts'),
 
   // Ops
   getOpsSummary: () =>
-    apiFetch<OpsSummaryResponse>('/api/internal/ops/summary'),
+    apiFetch<OpsSummaryResponse>('/internal/ops/summary'),
 
   getSessionStats: () =>
-    apiFetch<SessionStatsResponse>('/api/internal/ops/sessions/stats'),
+    apiFetch<SessionStatsResponse>('/internal/ops/sessions/stats'),
 
   revokeUserSessions: (userId: string) =>
-    apiFetch<RevokeSessionsResponse>(`/api/internal/ops/sessions/${userId}`, {
+    apiFetch<RevokeSessionsResponse>(`/internal/ops/sessions/${userId}`, {
       method: 'DELETE',
     }),
 
   getRateLimits: () =>
-    apiFetch<RateLimitsResponse>('/api/internal/ops/rate-limits'),
+    apiFetch<RateLimitsResponse>('/internal/ops/rate-limits'),
 
   getRedisDiagnostics: () =>
-    apiFetch<DiagnosticsRedisResponse>('/api/internal/ops/diagnostics/redis'),
+    apiFetch<DiagnosticsRedisResponse>('/internal/ops/diagnostics/redis'),
 
   getWebSocketDiagnostics: () =>
-    apiFetch<DiagnosticsWebSocketResponse>('/api/internal/ops/diagnostics/websockets'),
+    apiFetch<DiagnosticsWebSocketResponse>('/internal/ops/diagnostics/websockets'),
 
   getDatabaseDiagnostics: () =>
-    apiFetch<DiagnosticsDatabaseResponse>('/api/internal/ops/diagnostics/database'),
+    apiFetch<DiagnosticsDatabaseResponse>('/internal/ops/diagnostics/database'),
 
   getEmailStatus: () =>
-    apiFetch<EmailStatusResponse>('/api/internal/ops/notifications/email'),
+    apiFetch<EmailStatusResponse>('/internal/ops/notifications/email'),
 
   getAuditLogs: (page = 1, limit = 50, action?: string) => {
     const params = new URLSearchParams({ page: String(page), limit: String(limit) })
     if (action) params.set('action', action)
-    return apiFetch<AuditLogsResponse>(`/api/internal/ops/audit?${params}`)
+    return apiFetch<AuditLogsResponse>(`/internal/ops/audit?${params}`)
   },
 
   listApiKeys: (activeOnly = true) =>
-    apiFetch<ApiKeysListResponse>(`/api/internal/ops/api-keys?active_only=${activeOnly}`),
+    apiFetch<ApiKeysListResponse>(`/internal/ops/api-keys?active_only=${activeOnly}`),
 
   createApiKey: (name: string, expiresInDays?: number) =>
-    apiFetch<CreatedApiKeyResponse>('/api/internal/ops/api-keys', {
+    apiFetch<CreatedApiKeyResponse>('/internal/ops/api-keys', {
       method: 'POST',
       body: JSON.stringify({
         name,
@@ -287,5 +287,5 @@ export const client = {
     }),
 
   revokeApiKey: (keyId: number) =>
-    apiFetch<void>(`/api/internal/ops/api-keys/${keyId}`, { method: 'DELETE' }),
+    apiFetch<void>(`/internal/ops/api-keys/${keyId}`, { method: 'DELETE' }),
 }

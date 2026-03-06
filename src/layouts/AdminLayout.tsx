@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import {
   ActivitySquare,
-  Briefcase,
   ChartLine,
   ChevronDown,
   ChevronLeft,
@@ -40,7 +39,7 @@ export function AdminLayout() {
       {
         heading: 'Operations',
         items: [
-          { label: 'Ops Summary', to: '/ops/summary', icon: LayoutGrid },
+          { label: 'Summary', to: '/ops/summary', icon: LayoutGrid },
           { label: 'Diagnostics', to: '/ops/diagnostics', icon: ActivitySquare },
           { label: 'Rate Limits', to: '/ops/rate-limits', icon: Gauge },
           { label: 'Sessions', to: '/ops/sessions', icon: ListChecks },
@@ -52,7 +51,6 @@ export function AdminLayout() {
       {
         heading: 'Business',
         items: [
-          { label: 'Overview', to: '/business/overview', icon: Briefcase },
           { label: 'Trends', to: '/business/trends', icon: LineChart },
           { label: 'Activity', to: '/business/activity', icon: ChartLine },
         ],
@@ -68,8 +66,7 @@ export function AdminLayout() {
   // Filter navigation for collapsed state: show only Ops Summary and Overview
   const collapsedNavItems = useMemo(
     () => [
-      { label: 'Ops Summary', to: '/ops/summary', icon: LayoutGrid },
-      { label: 'Overview', to: '/business/overview', icon: Briefcase },
+      { label: 'Summary', to: '/ops/summary', icon: LayoutGrid },
     ],
     []
   )
