@@ -55,7 +55,7 @@ export function OpsSummaryPage() {
       )}
 
       {!loading && !error && (
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {/* Business Section */}
           <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[100ms] fill-mode-both">
             <div className="bg-white/[0.02] border-b border-white/[0.03] px-6 py-4 flex items-center justify-between relative overflow-hidden">
@@ -250,7 +250,7 @@ export function OpsSummaryPage() {
         )}
 
         {!bizLoading && !bizError && bizData && (
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-6 grid-cols-2">
             {/* Users Card */}
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
               <Card className="relative overflow-hidden group hover:border-brand/30 transition-colors duration-500">
@@ -289,26 +289,6 @@ export function OpsSummaryPage() {
               </Card>
             </div>
 
-            {/* Members Card */}
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
-              <Card className="relative overflow-hidden group hover:border-brand/30 transition-colors duration-500">
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand/40 via-brand to-brand/40 opacity-50" />
-                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-brand mb-4">Members</p>
-                
-                <HeroMetric label="Total Authorizations" value={bizData.members.total_authorizations} />
-                
-                <div className="mt-8 space-y-3 pt-6 border-t border-white/5">
-                  {Object.entries(bizData.members.by_role).length > 0 && (
-                    <div className="space-y-3">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-app-muted opacity-50">By Role Distribution</p>
-                      {Object.entries(bizData.members.by_role).map(([role, count]) => (
-                        <SparkRow key={role} label={role} value={count} total={bizData.members.total_authorizations} />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </Card>
-            </div>
           </div>
         )}
       </section>
