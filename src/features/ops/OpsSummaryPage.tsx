@@ -41,7 +41,7 @@ export function OpsSummaryPage() {
         </Button>
       </header>
 
-      {loading && <div className="py-12"><LoadingState label="Aggregating operational intelligence..." /></div>}
+      {loading && <LoadingState label="Aggregating operational intelligence..." />}
 
       {!loading && error && (
         <div className="space-y-3">

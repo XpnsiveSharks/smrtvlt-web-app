@@ -192,8 +192,8 @@ export function OpsAuditLogsPage() {
         </form>
 
         {/* P2: Glass-Rim Card Definition */}
-        <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
-          {loading && <div className="p-8"><LoadingState label="Loading audit logs..." /></div>}
+          <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+          {loading && <LoadingState label="Loading audit logs..." />}
 
           {!loading && error && (
             <div className="p-8 space-y-4 flex flex-col items-center">

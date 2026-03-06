@@ -337,7 +337,7 @@ export function OpsApiKeysPage() {
         <div className="absolute -top-[1px] left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-brand/40 to-transparent z-10 opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
         
         <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60">
-          {loading && <div className="p-8"><LoadingState label="Loading API keys..." /></div>}
+          {loading && <LoadingState label="Loading API keys..." />}
 
           {!loading && error && (
             <div className="p-8 space-y-4 flex flex-col items-center">

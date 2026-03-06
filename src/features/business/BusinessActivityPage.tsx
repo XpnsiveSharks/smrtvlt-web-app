@@ -4,7 +4,6 @@ import {
   Lock, 
   ShieldAlert, 
   Key, 
-  Users, 
   RefreshCcw, 
   History,
   ChevronDown,
@@ -101,7 +100,7 @@ export function BusinessActivityPage() {
         </div>
       </header>
 
-      {loading && <div className="py-12"><LoadingState label="Synchronizing activity data..." /></div>}
+      {loading && <LoadingState label="Synchronizing activity data..." />}
 
       {!loading && error && (
         <ErrorState
@@ -115,7 +114,7 @@ export function BusinessActivityPage() {
       {!loading && !error && data && (
         <div className="space-y-8">
           {/* Summary Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             <KPITile 
               label="Total events" 
               value={data.summary.total_events.toLocaleString()} 
@@ -142,16 +141,10 @@ export function BusinessActivityPage() {
               delay="150ms"
             />
             <KPITile 
-              label="Member changes" 
-              value={data.summary.member_changes.toLocaleString()} 
-              icon={<Users size={18} />}
-              delay="200ms"
-            />
-            <KPITile 
               label="State changes" 
               value={data.summary.state_changes.toLocaleString()} 
               icon={<RefreshCcw size={18} />}
-              delay="250ms"
+              delay="200ms"
             />
           </div>
 

@@ -85,7 +85,7 @@ export function OpsDiagnosticsPage() {
 
 function RedisDiagnostics() {
   const { data, loading, error, refetch } = useRedisDiagnostics()
-  if (loading) return <div className="py-20"><LoadingState label="Polling technical metrics..." /></div>
+  if (loading) return <LoadingState label="Polling technical metrics..." />
   if (error) return <ErrorState detail={error} onRetry={refetch} />
   if (!data) return <p className="text-app-muted text-sm italic opacity-40">No data stream available.</p>
   return (
@@ -154,7 +154,7 @@ function RedisDiagnostics() {
 
 function WebSocketDiagnostics() {
   const { data, loading, error, refetch } = useWebSocketDiagnostics()
-  if (loading) return <div className="py-20"><LoadingState label="Analyzing connection bridge..." /></div>
+  if (loading) return <LoadingState label="Analyzing connection bridge..." />
   if (error) return <ErrorState detail={error} onRetry={refetch} />
   if (!data) return <p className="text-app-muted text-sm italic opacity-40">No socket data available.</p>
   return (
@@ -224,7 +224,7 @@ function WebSocketDiagnostics() {
 
 function DatabaseDiagnostics() {
   const { data, loading, error, refetch } = useDatabaseDiagnostics()
-  if (loading) return <div className="py-20"><LoadingState label="Auditing persistence layer..." /></div>
+  if (loading) return <LoadingState label="Auditing persistence layer..." />
   if (error) return <ErrorState detail={error} onRetry={refetch} />
   if (!data) return <p className="text-app-muted text-sm italic opacity-40">No database diagnostics available.</p>
   return (
