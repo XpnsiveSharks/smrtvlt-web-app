@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { 
   Activity, 
   Lock, 
@@ -14,6 +14,8 @@ import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { useBusinessActivity } from './hooks/useBusinessActivity'
+
+const PAGE_SIZE = 20
 
 interface KPITileProps {
   label: string
@@ -62,7 +64,13 @@ function KPITile({ label, value, icon, variant = 'default', delay = '0ms' }: KPI
 
 export function BusinessActivityPage() {
   const [selectedHours, setSelectedHours] = useState(24)
+  const [page, setPage] = useState(1)
   const { data, loading, error, refetch } = useBusinessActivity(selectedHours, 50)
+
+  useEffect(() => { setPage(1) }, [data])
+
+  const totalPages = data ? Math.max(1, Math.ceil(data.entries.length / PAGE_SIZE)) : 1
+  const pagedEntries = data?.entries.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE) ?? []
 
   const handleHoursChange = (hours: number) => {
     setSelectedHours(hours)
@@ -186,7 +194,7 @@ export function BusinessActivityPage() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/[0.03]">
-                      {data.entries.map((entry) => (
+                      {pagedEntries.map((entry) => (
                         <tr key={entry.id} className="group hover:bg-white/[0.02] transition-colors duration-200">
                           <td className="px-6 py-4 font-mono text-[10px] text-app-muted/50 group-hover:text-app-muted transition-colors">#{entry.id}</td>
                           <td className="px-6 py-4">
@@ -218,6 +226,31 @@ export function BusinessActivityPage() {
                       ))}
                     </tbody>
                   </table>
+                  {totalPages > 1 && (
+                    <div className="flex items-center justify-between border-t border-white/[0.03] px-6 py-4 bg-white/[0.01]">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-app-muted opacity-60">
+                        Page {page} of {totalPages} · {data.entries.length} entries
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setPage((p) => Math.max(1, p - 1))}
+                          disabled={page === 1}
+                          className="rounded-lg border border-white/5 bg-app-surface-2 px-3 py-1.5 text-xs font-bold text-app-muted transition-all hover:bg-white/5 hover:text-app-text disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                          Prev
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                          disabled={page === totalPages}
+                          className="rounded-lg border border-white/5 bg-app-surface-2 px-3 py-1.5 text-xs font-bold text-app-muted transition-all hover:bg-white/5 hover:text-app-text disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </Card>
