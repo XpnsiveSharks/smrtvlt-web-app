@@ -7,7 +7,6 @@ import { OpsSummaryPage } from '../features/ops/OpsSummaryPage'
 import { OpsDiagnosticsPage } from '../features/ops/OpsDiagnosticsPage'
 import { OpsRateLimitsPage } from '../features/ops/OpsRateLimitsPage'
 import { OpsSessionsPage } from '../features/ops/OpsSessionsPage'
-import { OpsEmailStatusPage } from '../features/ops/OpsEmailStatusPage'
 import { BusinessTrendsPage } from '../features/business/BusinessTrendsPage'
 import { BusinessActivityPage } from '../features/business/BusinessActivityPage'
 import { SecurityAlertsPage } from '../features/security/SecurityAlertsPage'
@@ -28,7 +27,6 @@ export function AppRoutes() {
           <Route path="/ops/diagnostics" element={<OpsDiagnosticsPage />} />
           <Route path="/ops/rate-limits" element={<OpsRateLimitsPage />} />
           <Route path="/ops/sessions" element={<OpsSessionsPage />} />
-          <Route path="/ops/notifications/email" element={<OpsEmailStatusPage />} />
           <Route path="/ops/api-keys" element={<OpsApiKeysPage />} />
           
           {/* Business routes */}
