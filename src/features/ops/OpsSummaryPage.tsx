@@ -216,7 +216,6 @@ export function OpsSummaryPage() {
                   { label: 'Vault unlocks', value: activity?.vault_unlocks },
                   { label: 'Failed unlocks', value: activity?.failed_unlocks, danger: true },
                   { label: 'Pin operations', value: activity?.pin_operations },
-                  { label: 'Member changes', value: activity?.member_changes },
                   { label: 'State changes', value: activity?.state_changes },
                 ].map((item, idx) => (
                   <p key={idx} className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em]">

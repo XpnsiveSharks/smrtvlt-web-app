@@ -12,7 +12,6 @@ import {
   LayoutGrid,
   LineChart,
   ListChecks,
-  Mail,
   Menu,
   ShieldAlert,
   X,
@@ -46,7 +45,6 @@ export function AdminLayout() {
           { label: 'Diagnostics', to: '/ops/diagnostics', icon: ActivitySquare },
           { label: 'Rate Limits', to: '/ops/rate-limits', icon: Gauge },
           { label: 'Sessions', to: '/ops/sessions', icon: ListChecks },
-          { label: 'Email Status', to: '/ops/notifications/email', icon: Mail },
           { label: 'Audit Logs', to: '/ops/audit', icon: ClipboardList },
           { label: 'API Keys', to: '/ops/api-keys', icon: KeyRound },
         ],
@@ -169,10 +167,10 @@ export function AdminLayout() {
                             transitionDelay: expandedSections[section.heading] ? `${index * 20}ms` : '0ms',
                           }}
                           className={({ isActive }) =>
-                            `group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold transition-all duration-200 ${
+                            `group flex items-center gap-3 px-3 py-2 text-sm font-bold transition-all duration-200 ${
                               isActive
-                                ? 'bg-brand/10 text-brand border-l-2 border-brand rounded-l-none -ml-4 pl-[calc(1rem+2px)] shadow-[inset_10px_0_15px_-10px_rgba(var(--color-brand),0.1)]'
-                                : 'text-app-muted/80 hover:bg-white/5 hover:text-app-text hover:translate-x-1'
+                                ? 'bg-brand/10 text-brand border-l-2 border-brand rounded-r-lg rounded-l-none -ml-4 pl-[calc(1rem+2px)] shadow-[inset_10px_0_15px_-10px_rgba(var(--color-brand),0.1)]'
+                                : 'text-app-muted/80 rounded-r-lg rounded-l-none -ml-4 pl-[calc(1rem+2px)] hover:bg-white/5 hover:text-app-text'
                             }`
                           }
                         >
