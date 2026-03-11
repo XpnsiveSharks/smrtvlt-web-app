@@ -1,17 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        brand: '#BFFF00',
-        'app-bg': '#0a0a0a',
-        'app-surface': '#141414',
-        'app-surface-2': '#1b1b1b',
-        'app-border': '#2a2a2a',
-        'app-text': '#f5f5f5',
-        'app-muted': '#a3a3a3',
-        'app-danger': '#ef4444',
+        brand: 'rgb(var(--color-brand) / <alpha-value>)',
+        'app-bg': 'rgb(var(--color-app-bg) / <alpha-value>)',
+        'app-surface': 'rgb(var(--color-app-surface) / <alpha-value>)',
+        'app-surface-2': 'rgb(var(--color-app-surface-2) / <alpha-value>)',
+        'app-border': 'rgb(var(--color-app-border) / <alpha-value>)',
+        'app-text': 'rgb(var(--color-app-text) / <alpha-value>)',
+        'app-muted': 'rgb(var(--color-app-muted) / <alpha-value>)',
+        'app-danger': 'rgb(var(--color-app-danger) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

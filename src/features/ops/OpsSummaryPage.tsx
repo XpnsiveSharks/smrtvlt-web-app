@@ -35,7 +35,7 @@ export function OpsSummaryPage() {
           <h1 className="font-display text-3xl tracking-tight text-app-text border-l-2 border-brand pl-4">Summary</h1>
           <p className="mt-1 text-sm text-app-muted ml-4 opacity-80">Operational and business snapshot.</p>
         </div>
-        <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-white/5 hover:bg-white/5">
+        <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-app-border/30 hover:bg-app-surface/50">
           <RefreshCcw size={16} className={`mr-2 ${loading ? 'animate-spin' : ''}`} />
           Refresh
         </Button>
@@ -57,8 +57,8 @@ export function OpsSummaryPage() {
       {!loading && !error && (
     <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {/* Business Section */}
-          <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[100ms] fill-mode-both">
-            <div className="bg-white/[0.02] border-b border-white/[0.03] px-6 py-4 flex items-center justify-between relative overflow-hidden">
+          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[100ms] fill-mode-both">
+            <div className="bg-app-surface/20 border-b border-app-border/20 px-6 py-4 flex items-center justify-between relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1 h-full bg-brand" />
               <div>
                 <h2 className="font-display text-lg text-app-text">Business</h2>
@@ -80,7 +80,7 @@ export function OpsSummaryPage() {
               </div>
 
               {/* Secondary metrics in a well */}
-              <div className="bg-black/20 rounded-xl p-4 border border-white/5 space-y-3">
+              <div className="bg-app-surface-2/50 rounded-xl p-4 border border-app-border/30 space-y-3">
                 <p className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em]">
                   <span className="text-app-muted opacity-60 flex items-center gap-2">
                     <span className="h-1 w-1 rounded-full bg-emerald-400" />
@@ -97,7 +97,7 @@ export function OpsSummaryPage() {
                 </p>
               </div>
 
-              <div className="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+              <div className="h-px bg-gradient-to-r from-transparent via-app-border/50 to-transparent" />
 
               {/* Vault metrics */}
               <div className="space-y-3 px-1">
@@ -114,8 +114,8 @@ export function OpsSummaryPage() {
           </Card>
 
           {/* Security Section */}
-          <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[200ms] fill-mode-both">
-            <div className="bg-white/[0.02] border-b border-white/[0.03] px-6 py-4 flex items-center justify-between relative overflow-hidden">
+          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[200ms] fill-mode-both">
+            <div className="bg-app-surface/20 border-b border-app-border/20 px-6 py-4 flex items-center justify-between relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1 h-full bg-app-danger" />
               <div>
                 <h2 className="font-display text-lg text-app-text">Security</h2>
@@ -126,7 +126,7 @@ export function OpsSummaryPage() {
 
             <div className="p-6 space-y-6">
               {/* Status Section */}
-              <div className="flex items-center justify-between bg-black/20 rounded-xl p-4 border border-white/5">
+              <div className="flex items-center justify-between bg-app-surface-2/50 rounded-xl p-4 border border-app-border/30">
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-app-muted opacity-60">Status</span>
                 <div className="flex items-center gap-3">
                   <StatusBadge status={security?.status ?? data?.overall_status} />
@@ -143,7 +143,7 @@ export function OpsSummaryPage() {
               <div className={`relative overflow-hidden rounded-xl border border-t-white/10 p-5 shadow-lg transition-all ${
                 Number(security?.alert_count ?? 0) > 0 
                   ? 'bg-red-500/5 border-red-500/20' 
-                  : 'bg-gradient-to-b from-white/[0.02] to-transparent border-white/[0.05]'
+                  : 'bg-gradient-to-b from-app-surface/20 to-transparent border-app-border/30'
               }`}>
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-app-muted opacity-60">Alert count</p>
                 <p className={`mt-2 font-display text-4xl font-bold tracking-tighter ${
@@ -156,10 +156,10 @@ export function OpsSummaryPage() {
                 </div>
               </div>
 
-              <div className="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+              <div className="h-px bg-gradient-to-r from-transparent via-app-border/50 to-transparent" />
 
               {/* Failed unlock metrics well */}
-              <div className="bg-black/20 rounded-xl p-4 border border-white/5 space-y-3">
+              <div className="bg-app-surface-2/50 rounded-xl p-4 border border-app-border/30 space-y-3">
                 <p className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em]">
                   <span className="text-app-muted opacity-60">Failed unlocks (1h)</span>
                   <span className="font-mono text-sm text-app-text">{displayValue(security?.failed_unlocks_1h)}</span>
@@ -177,8 +177,8 @@ export function OpsSummaryPage() {
           </Card>
 
           {/* Activity Section */}
-          <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[300ms] fill-mode-both">
-            <div className="bg-white/[0.02] border-b border-white/[0.03] px-6 py-4 flex items-center justify-between relative overflow-hidden">
+          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[300ms] fill-mode-both">
+            <div className="bg-app-surface/20 border-b border-app-border/20 px-6 py-4 flex items-center justify-between relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1 h-full bg-brand/60" />
               <div>
                 <h2 className="font-display text-lg text-app-text">Activity</h2>
@@ -189,7 +189,7 @@ export function OpsSummaryPage() {
 
             <div className="p-6 space-y-6">
               {/* Context metric */}
-              <div className="flex items-center justify-between bg-black/20 rounded-xl p-3 border border-white/5">
+              <div className="flex items-center justify-between bg-app-surface-2/50 rounded-xl p-3 border border-app-border/30">
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-app-muted opacity-60">Monitoring Period</span>
                 <span className="font-mono text-xs font-bold text-brand flex items-center gap-1.5">
                   <TrendingUp size={12} />
@@ -198,7 +198,7 @@ export function OpsSummaryPage() {
               </div>
 
               {/* Total Events KPI */}
-              <div className="relative overflow-hidden rounded-xl border border-white/[0.05] border-t-white/10 bg-gradient-to-b from-white/[0.02] to-transparent p-5 shadow-lg">
+              <div className="relative overflow-hidden rounded-xl border border-app-border/30 border-t-app-border/50 bg-gradient-to-b from-app-surface/20 to-transparent p-5 shadow-lg">
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-app-muted opacity-60">Total events</p>
                 <p className="mt-2 font-display text-4xl font-bold text-app-text tracking-tighter">
                   {displayValue(activity?.total_events)}
@@ -208,7 +208,7 @@ export function OpsSummaryPage() {
                 </div>
               </div>
 
-              <div className="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+              <div className="h-px bg-gradient-to-r from-transparent via-app-border/50 to-transparent" />
 
               {/* Secondary metrics list */}
               <div className="space-y-3 px-1">
@@ -258,7 +258,7 @@ export function OpsSummaryPage() {
                 
                 <HeroMetric label="Total Platform Users" value={bizData.users.total} />
                 
-                <div className="mt-8 space-y-3 pt-6 border-t border-white/5">
+                <div className="mt-8 space-y-3 pt-6 border-t border-app-border/30">
                   <MetricRow label="New today" value={bizData.users.new_today} />
                   <MetricRow label="New this week" value={bizData.users.new_this_week} />
                 </div>
@@ -273,7 +273,7 @@ export function OpsSummaryPage() {
                 
                 <HeroMetric label="Total Secure Vaults" value={bizData.vaults.total} />
                 
-                <div className="mt-8 space-y-3 pt-6 border-t border-white/5">
+                <div className="mt-8 space-y-3 pt-6 border-t border-app-border/30">
                   <MetricRow label="With PIN Enabled" value={bizData.vaults.with_pin} />
                   
                   {Object.entries(bizData.vaults.by_status).length > 0 && (
@@ -323,7 +323,7 @@ function SparkRow({ label, value, total }: { label: string; value: number; total
         <span className="text-app-muted uppercase tracking-wider group-hover/spark:text-app-text transition-colors">{label}</span>
         <span className="font-bold text-app-text">{value}</span>
       </div>
-      <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+      <div className="h-1 bg-app-border/30 rounded-full overflow-hidden">
         <div
           className="h-full bg-brand/60 shadow-[0_0_8px_rgba(var(--color-brand),0.4)] transition-all duration-1000 ease-out"
           style={{ width: `${percentage}%` }}

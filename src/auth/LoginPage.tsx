@@ -61,7 +61,7 @@ export function LoginPage() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/5 blur-[120px] pointer-events-none animate-in fade-in duration-1000" />
       
       <div className="w-full max-w-lg relative z-10 animate-in fade-in zoom-in-95 slide-in-from-bottom-8 duration-700">
-        <Card className={`relative overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60 transition-all duration-500 focus-within:shadow-[0_0_40px_rgba(var(--color-brand),0.1)] focus-within:border-brand/20`}>
+        <Card className={`relative overflow-hidden border-app-border/30 shadow-2xl shadow-black/60 transition-all duration-500 focus-within:shadow-[0_0_40px_rgba(var(--color-brand),0.1)] focus-within:border-brand/20`}>
           {/* P5: State-Reactive Accent Border */}
           <div className={`absolute top-0 left-0 right-0 h-[2px] transition-all duration-700 ${
             errorDetail ? 'bg-app-danger shadow-[0_0_10px_rgba(239,68,68,0.5)]' : 
@@ -94,11 +94,11 @@ export function LoginPage() {
                     setCanContinue(false)
                     setErrorDetail(null)
                   }}
-                  className="w-full rounded-xl border border-white/10 bg-app-bg/50 px-4 py-3.5 font-mono text-lg text-app-text outline-none transition-all focus:border-brand/40 focus:ring-2 focus:ring-brand/20 shadow-inner placeholder:text-app-muted/30"
+                  className="w-full rounded-xl border border-app-border/40 bg-app-bg/50 px-4 py-3.5 font-mono text-lg text-app-text outline-none transition-all focus:border-brand/40 focus:ring-2 focus:ring-brand/20 shadow-inner placeholder:text-app-muted/30"
                   placeholder="••••••••••••••••"
                   autoComplete="off"
                 />
-                <div className="absolute inset-0 rounded-xl pointer-events-none border border-white/5 group-hover:border-white/10 transition-colors" />
+                <div className="absolute inset-0 rounded-xl pointer-events-none border border-app-border/30 group-hover:border-app-border/50 transition-colors" />
               </div>
             </div>
 
@@ -127,7 +127,7 @@ export function LoginPage() {
                 variant="secondary" 
                 onClick={handleTestConnection} 
                 isLoading={isTesting} 
-                className="flex-1 h-12 text-[10px] font-black uppercase tracking-widest border-white/5 hover:bg-white/5"
+                className="flex-1 h-12 text-[10px] font-black uppercase tracking-widest border-app-border/30 hover:bg-app-surface/50"
               >
                 Test Node
               </Button>

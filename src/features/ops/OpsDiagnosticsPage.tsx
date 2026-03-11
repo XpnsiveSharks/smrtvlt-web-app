@@ -41,7 +41,7 @@ export function OpsDiagnosticsPage() {
       <h1 className="font-display text-3xl mb-8 tracking-tighter text-app-text border-l-2 border-brand pl-4 drop-shadow-[0_0_12px_rgba(var(--color-brand),0.25)]">Diagnostics</h1>
       
       {/* P3: Refined Technical Tabs */}
-      <div className="mb-8 flex p-1.5 bg-black/40 backdrop-blur-md rounded-xl w-fit border border-white/5 shadow-inner">
+      <div className="mb-8 flex p-1.5 bg-app-surface-2/80 backdrop-blur-md rounded-xl w-fit border border-app-border/30 shadow-inner">
         {tabs.map(t => {
           const Icon = t.icon
           const isActive = tab === t.key
@@ -51,7 +51,7 @@ export function OpsDiagnosticsPage() {
               className={`px-6 py-2.5 rounded-lg transition-all duration-300 inline-flex items-center gap-3 relative overflow-hidden group/tab ${
                 isActive 
                   ? 'bg-brand/10 text-brand border border-brand/20 shadow-[0_0_20px_rgba(var(--color-brand),0.05)]' 
-                  : 'text-app-muted hover:text-app-text hover:bg-white/5 border border-transparent'
+                  : 'text-app-muted hover:text-app-text hover:bg-app-surface/30 border border-transparent'
               }`}
               onClick={() => setTab(t.key)}
               type="button"
@@ -68,7 +68,7 @@ export function OpsDiagnosticsPage() {
 
       <div className="relative group/main-card">
         {/* P1: Main Observation Container with Depth */}
-        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-[inset_0_2px_20px_rgba(0,0,0,0.4),0_20px_50px_rgba(0,0,0,0.4)] border border-white/[0.05] border-t-white/10 overflow-hidden min-h-[600px] transition-all duration-500 relative">
+        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-[inset_0_2px_20px_rgba(0,0,0,0.4),0_20px_50px_rgba(0,0,0,0.4)] border border-app-border/30 border-t-app-border/50 overflow-hidden min-h-[600px] transition-all duration-500 relative">
           {/* Subtle Scanline/Grid effect */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(191,255,0,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(191,255,0,0.01)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] pointer-events-none" />
           
@@ -91,7 +91,7 @@ function RedisDiagnostics() {
   return (
     <div className="space-y-12">
       {/* Primary metrics card */}
-      <div className="rounded-2xl bg-black/30 p-8 border border-white/5 relative overflow-hidden group/subcard shadow-inner">
+      <div className="rounded-2xl bg-app-surface-2/60 p-8 border border-app-border/30 relative overflow-hidden group/subcard shadow-inner">
         {/* P4: Ghosting Asset */}
         <div className="absolute -top-8 -right-8 p-4 opacity-[0.05] pointer-events-none transition-transform duration-1000 group-hover/subcard:scale-110 group-hover/subcard:rotate-6">
           <Database size={180} className="text-brand blur-[1px]" />
@@ -139,7 +139,7 @@ function RedisDiagnostics() {
           </div>
           Resource Allocation
           <span className="opacity-40">]</span>
-          <div className="flex-1 h-px bg-white/5 ml-2" />
+          <div className="flex-1 h-px bg-app-border/30 ml-2" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Metric label="Total Keys" value={data.total_keys} isPrimary delay="100ms" />
@@ -160,7 +160,7 @@ function WebSocketDiagnostics() {
   return (
     <div className="space-y-12">
       {/* Primary metrics card */}
-      <div className="rounded-2xl bg-black/30 p-8 border border-white/5 relative overflow-hidden group/subcard shadow-inner">
+      <div className="rounded-2xl bg-app-surface-2/60 p-8 border border-app-border/30 relative overflow-hidden group/subcard shadow-inner">
         {/* P4: Ghosting Asset */}
         <div className="absolute -top-12 -right-12 p-4 opacity-[0.06] pointer-events-none transition-transform duration-[60s] linear animate-spin-slow">
           <Network size={220} className="text-brand blur-[1px]" />
@@ -190,7 +190,7 @@ function WebSocketDiagnostics() {
           </div>
           Vault Mesh Network
           <span className="opacity-40">]</span>
-          <div className="flex-1 h-px bg-white/5 ml-2" />
+          <div className="flex-1 h-px bg-app-border/30 ml-2" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Metric label="Total Nodes" value={data.total_vaults} delay="100ms" />
@@ -201,7 +201,7 @@ function WebSocketDiagnostics() {
       </div>
 
       {data.online_vaults.length > 0 && (
-        <div className="mt-8 pt-8 border-t border-white/5 animate-in fade-in duration-1000">
+        <div className="mt-8 pt-8 border-t border-app-border/30 animate-in fade-in duration-1000">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-app-muted opacity-40 mb-5">
             Decentralized Vault Nodes ({data.online_vaults.length})
           </p>
@@ -209,7 +209,7 @@ function WebSocketDiagnostics() {
             {data.online_vaults.map(vaultId => (
               <span
                 key={vaultId}
-                className="inline-flex items-center rounded-lg border border-white/5 bg-black/40 px-3.5 py-2 text-[10px] font-mono font-bold text-brand shadow-xl hover:border-brand/30 transition-colors group/node"
+                className="inline-flex items-center rounded-lg border border-app-border/30 bg-app-surface-2/80 px-3.5 py-2 text-[10px] font-mono font-bold text-brand shadow-xl hover:border-brand/30 transition-colors group/node"
               >
                 <span className="h-1 w-1 rounded-full bg-brand mr-2.5 animate-pulse group-hover/node:shadow-[0_0_8px_rgba(var(--color-brand),0.8)]" />
                 NODE-{vaultId.slice(0, 8)}
@@ -230,7 +230,7 @@ function DatabaseDiagnostics() {
   return (
     <div className="space-y-12">
       {/* Primary metrics card */}
-      <div className="rounded-2xl bg-black/30 p-8 border border-white/5 relative overflow-hidden group/subcard shadow-inner">
+      <div className="rounded-2xl bg-app-surface-2/60 p-8 border border-app-border/30 relative overflow-hidden group/subcard shadow-inner">
         {/* P4: Ghosting Asset */}
         <div className="absolute -top-10 -right-10 p-4 opacity-[0.05] pointer-events-none transition-transform duration-1000 group-hover/subcard:translate-y-2">
           <Activity size={200} className="text-brand blur-[1px]" />
@@ -270,7 +270,7 @@ function DatabaseDiagnostics() {
           </div>
           SQL Connection Pool
           <span className="opacity-40">]</span>
-          <div className="flex-1 h-px bg-white/5 ml-2" />
+          <div className="flex-1 h-px bg-app-border/30 ml-2" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Metric label="Pool Size" value={data.pool_size} isPrimary delay="100ms" />
@@ -327,7 +327,7 @@ function Metric({
   
   return (
     <div 
-      className={`group relative overflow-hidden rounded-xl border border-white/[0.05] border-t-white/[0.08] bg-gradient-to-b from-white/[0.02] to-transparent p-5 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04] hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-2 ${className ?? ''}`}
+      className={`group relative overflow-hidden rounded-xl border border-app-border/30 border-t-app-border/40 bg-gradient-to-b from-app-surface/20 to-transparent p-5 transition-all duration-300 hover:border-app-border/50 hover:bg-app-surface-2/50 hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-2 ${className ?? ''}`}
       style={{ animationDelay: delay, animationFillMode: 'both' }}
     >
       <div className="text-[10px] font-black uppercase tracking-[0.25em] text-app-muted opacity-40 mb-3 group-hover:text-app-muted group-hover:opacity-60 transition-all">

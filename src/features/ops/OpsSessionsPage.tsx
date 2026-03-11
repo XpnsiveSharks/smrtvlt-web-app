@@ -37,52 +37,52 @@ export function OpsSessionsPage() {
       {error && <ErrorState detail={error} onRetry={refetch} />}
       
       {data && (
-        <div className="bg-app-surface-2 rounded-lg p-6 shadow-2xl shadow-black/40 border border-white/[0.06] relative overflow-hidden">
+        <div className="bg-app-surface-2 rounded-lg p-6 shadow-2xl shadow-black/40 border border-app-border/30 relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-brand/10 to-transparent pointer-events-none" />
           
           {/* Primary metrics card */}
-          <div className="relative z-10 bg-app-surface/50 backdrop-blur-sm rounded-lg p-5 border border-white/[0.03] mb-8 shadow-inner">
+          <div className="relative z-10 bg-app-surface/50 backdrop-blur-sm rounded-lg p-5 border border-app-border/20 mb-8 shadow-inner">
             <div className="text-[10px] uppercase tracking-[0.2em] text-brand mb-4 font-bold opacity-80">Active Sessions</div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Metric 
                 label="Total Active Tokens" 
                 value={data.total_active_tokens} 
                 isPrimary 
-                className="bg-app-bg/40 rounded-xl p-5 border border-white/5 shadow-lg motion-safe:hover:scale-[1.02] transition-transform duration-300" 
+                className="bg-app-bg/40 rounded-xl p-5 border border-app-border/30 shadow-lg motion-safe:hover:scale-[1.02] transition-transform duration-300" 
               />
               <Metric 
                 label="Checked At" 
                 value={data.checked_at} 
                 isTimestamp 
-                className="bg-app-bg/40 rounded-xl p-5 border border-white/5 shadow-lg motion-safe:hover:scale-[1.02] transition-transform duration-300" 
+                className="bg-app-bg/40 rounded-xl p-5 border border-app-border/30 shadow-lg motion-safe:hover:scale-[1.02] transition-transform duration-300" 
               />
             </div>
           </div>
 
           {/* Top Users */}
           <div className="mb-8 relative z-10">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-brand mb-4 font-bold opacity-80 border-t border-white/5 pt-6">Top Users</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-brand mb-4 font-bold opacity-80 border-t border-app-border/30 pt-6">Top Users</div>
             {data.top_users.length === 0 ? (
               <p className="text-app-muted text-sm italic">No active sessions found</p>
             ) : (
-              <div className="overflow-hidden rounded-lg border border-white/[0.03]">
+              <div className="overflow-hidden rounded-lg border border-app-border/20">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-app-muted bg-white/[0.02]">
+                    <tr className="text-app-muted bg-app-surface/20">
                       <th className="text-left py-3 px-4 font-semibold tracking-wider uppercase text-[10px]">User ID</th>
                       <th className="text-right py-3 px-4 font-semibold tracking-wider uppercase text-[10px]">Tokens</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/[0.03]">
+                  <tbody className="divide-y divide-app-border/30">
                     {data.top_users.map(u => (
-                      <tr key={u.user_id} className="hover:bg-white/[0.04] transition-colors group">
+                      <tr key={u.user_id} className="hover:bg-app-surface-2/50 transition-colors group">
                         <td className="py-3 px-4">
                           <span className="font-mono text-[11px] text-app-muted group-hover:text-app-text transition-colors">{u.user_id}</span>
                         </td>
                         <td className="py-3 px-4">
                           <div className="flex flex-col items-end gap-1.5">
                             <span className="font-display font-bold text-app-text">{u.token_count}</span>
-                            <div className="w-24 h-1 bg-white/5 rounded-full overflow-hidden">
+                            <div className="w-24 h-1 bg-app-surface/30 rounded-full overflow-hidden">
                               <div 
                                 className="h-full bg-brand shadow-[0_0_8px_rgba(var(--color-brand),0.5)] transition-all duration-1000 ease-out"
                                 style={{ width: `${(u.token_count / maxTokens) * 100}%` }}
@@ -100,12 +100,12 @@ export function OpsSessionsPage() {
 
           {/* Revoke User Sessions */}
           <div className="relative z-10">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-brand mb-4 font-bold opacity-80 border-t border-white/5 pt-6">Revoke User Sessions</div>
-            <div className="bg-app-bg/30 p-4 rounded-xl border border-white/5">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-brand mb-4 font-bold opacity-80 border-t border-app-border/30 pt-6">Revoke User Sessions</div>
+            <div className="bg-app-bg/30 p-4 rounded-xl border border-app-border/30">
               <form className="flex gap-3 items-center" onSubmit={e => { e.preventDefault(); revoke(userId) }}>
                 <div className="flex-1 relative group">
                   <input
-                    className="w-full border border-white/10 rounded-lg px-4 py-2.5 font-mono text-sm bg-app-bg/50 text-app-text outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand/40 transition-all placeholder:text-app-muted/50"
+                    className="w-full border border-app-border/50 rounded-lg px-4 py-2.5 font-mono text-sm bg-app-bg/50 text-app-text outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand/40 transition-all placeholder:text-app-muted/50"
                     placeholder="Enter User ID..."
                     value={userId}
                     onChange={e => setUserId(e.target.value)}

@@ -92,9 +92,9 @@ function CreateKeyModal({ onClose, onCreated }: CreateKeyModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-app-bg/60 backdrop-blur-md" onClick={onClose}>
       <div
-        className="w-full max-w-md rounded-2xl border border-app-border border-t-white/10 bg-gradient-to-b from-app-surface to-[#1a1a1a] p-8 shadow-2xl shadow-black/60"
+        className="w-full max-w-md rounded-2xl border border-app-border border-t-app-border/50 bg-gradient-to-b from-app-surface to-app-surface-2 p-8 shadow-2xl shadow-black/60"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3">
@@ -112,7 +112,7 @@ function CreateKeyModal({ onClose, onCreated }: CreateKeyModalProps) {
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. mobile-app-prod"
               required
-              className="rounded-xl border border-white/5 bg-black/40 px-4 py-3 text-app-text outline-none transition-all duration-200 placeholder:text-app-muted/40 focus:border-brand/50 focus:ring-2 focus:ring-brand/20"
+                className="rounded-xl border border-app-border/30 bg-app-surface-2 px-4 py-3 text-app-text outline-none transition-all duration-200 placeholder:text-app-muted/40 focus:border-brand/50 focus:ring-2 focus:ring-brand/20"
             />
           </label>
 
@@ -124,7 +124,7 @@ function CreateKeyModal({ onClose, onCreated }: CreateKeyModalProps) {
               value={expiresInDays}
               onChange={(e) => setExpiresInDays(e.target.value)}
               placeholder="Leave empty for no expiry"
-              className="rounded-xl border border-white/5 bg-black/40 px-4 py-3 font-mono text-app-text outline-none transition-all duration-200 placeholder:text-app-muted/40 focus:border-brand/50 focus:ring-2 focus:ring-brand/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="rounded-xl border border-app-border/30 bg-app-surface-2 px-4 py-3 font-mono text-app-text outline-none transition-all duration-200 placeholder:text-app-muted/40 focus:border-brand/50 focus:ring-2 focus:ring-brand/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </label>
 
@@ -136,7 +136,7 @@ function CreateKeyModal({ onClose, onCreated }: CreateKeyModalProps) {
               variant="secondary"
               onClick={onClose}
               disabled={submitting}
-              className="hover:bg-white/5 border-transparent"
+               className="hover:bg-app-surface/50 border-transparent"
             >
               Cancel
             </Button>
@@ -175,8 +175,8 @@ function KeyRevealDialog({ result, onClose }: KeyRevealDialogProps) {
   }, [result.key])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-2xl border border-app-border border-t-white/10 bg-gradient-to-b from-app-surface to-[#1a1a1a] p-8 shadow-2xl shadow-black/60">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-app-bg/60 backdrop-blur-sm">
+      <div className="w-full max-w-lg rounded-2xl border border-app-border border-t-app-border/50 bg-gradient-to-b from-app-surface to-app-surface-2 p-8 shadow-2xl shadow-black/60">
         <div className="mb-6 flex flex-col items-center text-center">
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 text-brand">
             <CheckCircle2 size={40} />
@@ -210,7 +210,7 @@ function KeyRevealDialog({ result, onClose }: KeyRevealDialogProps) {
           </Button>
         </div>
 
-        <div className="mt-8 rounded-xl border border-app-border bg-white/5 p-4">
+        <div className="mt-8 rounded-xl border border-app-border bg-app-surface/30 p-4">
           <dl className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <dt className="font-medium text-app-muted">Name</dt>
@@ -246,9 +246,9 @@ interface RevokeDialogProps {
 
 function RevokeDialog({ keyName, onConfirm, onCancel, revoking }: RevokeDialogProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={onCancel}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-app-bg/60 backdrop-blur-sm" onClick={onCancel}>
       <div
-        className="w-full max-w-sm rounded-2xl border border-app-border border-t-white/10 bg-gradient-to-b from-app-surface to-[#1a1a1a] p-6 shadow-2xl shadow-black/60"
+        className="w-full max-w-sm rounded-2xl border border-app-border border-t-app-border/50 bg-gradient-to-b from-app-surface to-app-surface-2 p-6 shadow-2xl shadow-black/60"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="font-display text-xl text-app-text text-app-danger">Revoke API Key</h2>
@@ -321,7 +321,7 @@ export function OpsApiKeysPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-white/5 hover:bg-white/5">
+          <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-app-border/30 hover:bg-app-surface/50">
             Refresh
           </Button>
           <Button onClick={() => setShowCreateModal(true)} className="shadow-lg shadow-brand/10">Create Key</Button>
@@ -336,7 +336,7 @@ export function OpsApiKeysPage() {
         {/* Decorative Gradient Bleed */}
         <div className="absolute -top-[1px] left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-brand/40 to-transparent z-10 opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
         
-        <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60">
+        <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60">
           {loading && <LoadingState label="Loading API keys..." />}
 
           {!loading && error && (
@@ -360,8 +360,8 @@ export function OpsApiKeysPage() {
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-white/[0.03] text-sm">
-                    <thead className="bg-white/[0.02]">
+                  <table className="min-w-full divide-y divide-app-border/30 text-sm">
+                    <thead className="bg-app-surface/20">
                       <tr className="text-left">
                         <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Name</th>
                         <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Created By</th>
@@ -372,9 +372,9 @@ export function OpsApiKeysPage() {
                         <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60" />
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/[0.03]">
+                    <tbody className="divide-y divide-app-border/30">
                       {data?.items.map((item) => (
-                        <tr key={item.id} className="group hover:bg-white/[0.02] transition-colors duration-200">
+                        <tr key={item.id} className="group hover:bg-app-surface-2/30 transition-colors duration-200">
                           <td className="px-6 py-4 font-bold text-brand">{item.name}</td>
                           <td className="px-6 py-4 text-app-text/80">{item.created_by}</td>
                           <td className="whitespace-nowrap px-6 py-4 text-app-muted text-xs">
@@ -384,7 +384,7 @@ export function OpsApiKeysPage() {
                             {item.last_used_at ? (
                               <span className="text-app-text/80 text-xs">{formatDate(item.last_used_at, true)}</span>
                             ) : (
-                              <span className="inline-block rounded border border-white/5 bg-white/[0.03] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-app-muted/60 italic">
+                               <span className="inline-block rounded border border-app-border/30 bg-app-surface/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-app-muted/60 italic">
                                 Never
                               </span>
                             )}

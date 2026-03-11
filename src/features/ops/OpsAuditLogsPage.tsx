@@ -124,14 +124,14 @@ export function OpsAuditLogsPage() {
             </p>
           </div>
         </div>
-        <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-white/5 hover:bg-white/5">
+        <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-app-border/30 hover:bg-app-surface/50">
           Refresh
         </Button>
       </header>
 
       <div className="relative z-10 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
         <form
-          className="flex flex-wrap items-end gap-4 rounded-xl border border-white/5 bg-app-surface/60 backdrop-blur-md p-4 shadow-2xl shadow-black/40"
+          className="flex flex-wrap items-end gap-4 rounded-xl border border-app-border/30 bg-app-surface/60 backdrop-blur-md p-4 shadow-2xl shadow-black/40"
           onSubmit={handleFilterSubmit}
         >
           <label className="flex min-w-52 flex-col gap-1.5 text-sm">
@@ -147,7 +147,7 @@ export function OpsAuditLogsPage() {
                 value={actionInput}
                 onChange={(event) => setActionInput(event.target.value)}
                 placeholder="api_key_created"
-                className="h-10 w-full rounded-lg border border-white/10 bg-app-bg/60 pl-12 pr-3 font-mono text-xs text-app-text outline-none transition duration-300 focus:border-brand/50 focus:ring-2 focus:ring-brand/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] focus:shadow-[inset_0_2px_8px_rgba(0,0,0,0.5),0_0_20px_rgba(var(--color-brand),0.1)]"
+                className="h-10 w-full rounded-lg border border-app-border/50 bg-app-bg/60 pl-12 pr-3 font-mono text-xs text-app-text outline-none transition duration-300 focus:border-brand/50 focus:ring-2 focus:ring-brand/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] focus:shadow-[inset_0_2px_8px_rgba(0,0,0,0.5),0_0_20px_rgba(var(--color-brand),0.1)]"
               />
             </div>
           </label>
@@ -160,7 +160,7 @@ export function OpsAuditLogsPage() {
               <select
                 value={String(limit)}
                 onChange={handleLimitChange}
-                className="h-10 appearance-none rounded-lg border border-white/10 bg-app-bg/60 pl-3 pr-10 font-mono text-xs text-app-text outline-none transition duration-300 focus:border-brand/50 focus:ring-2 focus:ring-brand/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]"
+                className="h-10 appearance-none rounded-lg border border-app-border/50 bg-app-bg/60 pl-3 pr-10 font-mono text-xs text-app-text outline-none transition duration-300 focus:border-brand/50 focus:ring-2 focus:ring-brand/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]"
               >
                 <option value="25">25</option>
                 <option value="50">50</option>
@@ -181,7 +181,7 @@ export function OpsAuditLogsPage() {
           <Button
             type="button"
             variant="secondary"
-            className="h-10 px-6 font-bold uppercase tracking-widest text-[10px] border-white/5 hover:bg-white/10"
+             className="h-10 px-6 font-bold uppercase tracking-widest text-[10px] border-app-border/30 hover:bg-app-surface/50"
             onClick={() => {
               setActionInput('')
               updateParams({ page: 1, action: '' })
@@ -192,7 +192,7 @@ export function OpsAuditLogsPage() {
         </form>
 
         {/* P2: Glass-Rim Card Definition */}
-          <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60 shadow-[inset_0_1px_0_0_rgba(var(--color-app-text),0.06)] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
           {loading && <LoadingState label="Loading audit logs..." />}
 
           {!loading && error && (
@@ -210,8 +210,8 @@ export function OpsAuditLogsPage() {
                 /* P1 & P4: Radar Empty State Refinement */
                 <div className="flex flex-col items-center justify-center py-24 px-4 text-center bg-app-bg/20 overflow-hidden">
                   <div className="relative w-32 h-32 mb-10 flex items-center justify-center">
-                    <div className="absolute inset-0 rounded-full border border-dashed border-white/[0.05] animate-[spin_20s_linear_infinite]" />
-                    <div className="absolute inset-4 rounded-full border border-white/[0.03] animate-pulse" />
+                    <div className="absolute inset-0 rounded-full border border-dashed border-app-border/30 animate-[spin_20s_linear_infinite]" />
+                    <div className="absolute inset-4 rounded-full border border-app-border/20 animate-pulse" />
                     <div className="absolute inset-8 rounded-full border border-brand/5 animate-pulse delay-700" />
                     <div className="w-3 h-3 rounded-full bg-brand shadow-[0_0_20px_rgba(var(--color-brand),0.8)] animate-pulse" />
                   </div>
@@ -222,8 +222,8 @@ export function OpsAuditLogsPage() {
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-white/[0.03] text-sm">
-                    <thead className="bg-white/[0.02]">
+                  <table className="min-w-full divide-y divide-app-border/30 text-sm">
+                    <thead className="bg-app-surface/20">
                       <tr className="text-left">
                         <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Created</th>
                         <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Action</th>
@@ -232,9 +232,9 @@ export function OpsAuditLogsPage() {
                         <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">IP Address</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/[0.03]">
+                    <tbody className="divide-y divide-app-border/30">
                       {data?.items.map((item) => (
-                        <tr key={item.id} className="group hover:bg-white/[0.02] transition-colors duration-200">
+                        <tr key={item.id} className="group hover:bg-app-surface-2/30 transition-colors duration-200">
                           <td className="whitespace-nowrap px-6 py-4 text-app-muted text-xs font-mono group-hover:text-app-text group-hover:translate-x-1 transition-all duration-300">
                             {formatDate(item.created_at)}
                           </td>
@@ -258,7 +258,7 @@ export function OpsAuditLogsPage() {
               )}
 
               {/* P4: Pagination Hub */}
-              <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.03] bg-white/[0.01] p-4">
+              <div className="flex flex-wrap items-center justify-between gap-4 border-t border-app-border/20 bg-app-surface/20 p-4">
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-3">
                     {/* P2: Amplify Live Signal Indicator */}
@@ -275,7 +275,7 @@ export function OpsAuditLogsPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="h-4 w-px bg-white/10" />
+                  <div className="h-4 w-px bg-app-border/50" />
                   <p className="text-[11px] font-mono text-app-muted">
                     PAGE <span className="font-bold text-app-text">[{String(data?.page ?? page).padStart(2, '0')}]</span> 
                     &nbsp;OF&nbsp; 
@@ -289,7 +289,7 @@ export function OpsAuditLogsPage() {
                     variant="secondary"
                     disabled={!canGoPrev}
                     onClick={() => updateParams({ page: page - 1 })}
-                    className="h-8 px-4 text-[10px] font-black uppercase tracking-widest border-white/5 hover:bg-white/10 transition-all"
+                    className="h-8 px-4 text-[10px] font-black uppercase tracking-widest border-app-border/30 hover:bg-app-surface/50 transition-all"
                   >
                     Prev
                   </Button>
@@ -297,7 +297,7 @@ export function OpsAuditLogsPage() {
                     variant="secondary"
                     disabled={!canGoNext}
                     onClick={() => updateParams({ page: page + 1 })}
-                    className="h-8 px-4 text-[10px] font-black uppercase tracking-widest border-white/5 hover:bg-white/10 transition-all"
+                    className="h-8 px-4 text-[10px] font-black uppercase tracking-widest border-app-border/30 hover:bg-app-surface/50 transition-all"
                   >
                     Next
                   </Button>

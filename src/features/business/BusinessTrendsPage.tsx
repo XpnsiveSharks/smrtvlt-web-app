@@ -150,11 +150,12 @@ export function BusinessTrendsPage() {
                       />
                       <Tooltip 
                         contentStyle={{ 
-                          backgroundColor: '#141414', 
-                          border: '1px solid #2a2a2a',
+                          backgroundColor: 'rgb(var(--color-app-surface))',
+                          border: '1px solid rgb(var(--color-app-border))',
                           borderRadius: '8px',
                           fontSize: '12px',
-                          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.5)'
+                          color: 'rgb(var(--color-app-text))',
+                          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)'
                         }}
                       />
                       <Area 
@@ -260,11 +261,12 @@ export function BusinessTrendsPage() {
                       />
                       <Tooltip 
                         contentStyle={{ 
-                          backgroundColor: '#141414', 
-                          border: '1px solid #2a2a2a',
+                          backgroundColor: 'rgb(var(--color-app-surface))',
+                          border: '1px solid rgb(var(--color-app-border))',
                           borderRadius: '8px',
                           fontSize: '12px',
-                          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.5)'
+                          color: 'rgb(var(--color-app-text))',
+                          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)'
                         }}
                       />
                       <Area 
