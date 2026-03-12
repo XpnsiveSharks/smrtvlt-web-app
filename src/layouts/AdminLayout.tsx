@@ -18,6 +18,7 @@ import {
   Sun,
   X,
 } from 'lucide-react'
+import logo from '../assets/logo.png'
 import { Button } from '../components/ui/Button'
 import { NotificationBell } from '../components/ui/NotificationBell'
 import { clearAdminToken } from '../auth/tokenStore'
@@ -104,13 +105,22 @@ export function AdminLayout() {
           <div className={`flex items-center min-h-[80px] px-6 border-b border-app-border/20 ${desktopCollapsed ? 'justify-center px-0' : 'justify-between'}`}>
             <div className="flex items-center gap-3">
               {desktopCollapsed ? (
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 border border-brand/20 shadow-[0_0_15px_rgba(var(--color-brand),0.1)] group transition-all duration-300 hover:scale-110">
-                  <span className="font-display font-black text-brand text-xs">SV</span>
-                </div>
+                <img
+                  src={logo}
+                  alt="SmrtVlt"
+                  className="h-9 w-9 object-contain transition-all duration-300 hover:scale-110 drop-shadow-[0_0_8px_rgba(var(--color-brand),0.4)]"
+                />
               ) : (
-                <div className="animate-in fade-in slide-in-from-left-4 duration-500">
-                  <p className="font-display text-[10px] font-black uppercase tracking-[0.3em] text-brand opacity-80 leading-none mb-1.5">SmartVault</p>
-                  <p className="font-display text-lg font-bold leading-tight tracking-tight text-app-text">Internal Console</p>
+                <div className="animate-in fade-in slide-in-from-left-4 duration-500 flex items-center gap-3">
+                  <img
+                    src={logo}
+                    alt="SmrtVlt"
+                    className="h-10 w-10 object-contain shrink-0 drop-shadow-[0_0_8px_rgba(var(--color-brand),0.4)]"
+                  />
+                  <div>
+                    <p className="font-display text-[10px] font-black uppercase tracking-[0.3em] text-brand opacity-80 leading-none mb-1.5">SmrtVlt</p>
+                    <p className="font-display text-lg font-bold leading-tight tracking-tight text-app-text">Internal Console</p>
+                  </div>
                 </div>
               )}
             </div>

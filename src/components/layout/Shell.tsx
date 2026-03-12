@@ -70,7 +70,7 @@ export function Shell({ active, onNavigate, children }: ShellProps) {
             SV
           </span>
           <div>
-            <p className="text-sm font-semibold text-slate-100 leading-none">SmartVault</p>
+            <p className="text-sm font-semibold text-slate-100 leading-none">SmrtVlt</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Admin Console</p>
           </div>
         </div>
