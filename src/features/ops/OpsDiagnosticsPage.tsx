@@ -3,6 +3,7 @@ import { useRedisDiagnostics, useWebSocketDiagnostics, useDatabaseDiagnostics } 
 import { StatusBadge } from '../../components/ui/StatusBadge'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { ErrorState } from '../../components/ui/ErrorState'
+import { StatCard } from '../../components/ui/StatCard'
 import { Activity, Database, Network } from 'lucide-react'
 
 const tabs = [
@@ -10,25 +11,6 @@ const tabs = [
   { key: 'websockets', label: 'WebSockets', icon: Network },
   { key: 'database', label: 'Database', icon: Activity },
 ]
-
-function formatRelativeTime(isoString: string): string {
-  try {
-    const date = new Date(isoString)
-    const now = new Date()
-    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000)
-    
-    if (seconds < 0) return 'just now'
-    if (seconds < 60) return `${seconds}s ago`
-    const minutes = Math.floor(seconds / 60)
-    if (minutes < 60) return `${minutes}m ago`
-    const hours = Math.floor(minutes / 60)
-    if (hours < 24) return `${hours}h ago`
-    const days = Math.floor(hours / 24)
-    return `${days}d ago`
-  } catch {
-    return isoString
-  }
-}
 
 export function OpsDiagnosticsPage() {
   const [tab, setTab] = useState('redis')
@@ -68,7 +50,7 @@ export function OpsDiagnosticsPage() {
 
       <div className="relative group/main-card">
         {/* P1: Main Observation Container with Depth */}
-        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-[inset_0_2px_20px_rgba(0,0,0,0.4),0_20px_50px_rgba(0,0,0,0.4)] border border-app-border/30 border-t-app-border/50 overflow-hidden min-h-[600px] transition-all duration-500 relative">
+        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-[inset_0_2px_20px_rgba(var(--shadow-color),0.08),0_20px_50px_rgba(var(--shadow-color),0.12)] border border-app-border/30 border-t-app-border/50 overflow-hidden min-h-[600px] transition-all duration-500 relative">
           {/* Subtle Scanline/Grid effect */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(191,255,0,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(191,255,0,0.01)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] pointer-events-none" />
           
@@ -142,10 +124,10 @@ function RedisDiagnostics() {
           <div className="flex-1 h-px bg-app-border/30 ml-2" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Metric label="Total Keys" value={data.total_keys} isPrimary delay="100ms" />
-          <Metric label="Memory footprint" value={data.memory_used_mb} unit="MB" delay="150ms" />
-          <Metric label="System uptime" value={data.uptime_seconds} unit="sec" delay="200ms" />
-          <Metric label="Last telemetry" value={data.checked_at} isTimestamp delay="250ms" />
+          <StatCard label="Total Keys" value={data.total_keys} size="lg" delay="100ms" />
+          <StatCard label="Memory footprint" value={data.memory_used_mb} unit="MB" size="sm" delay="150ms" />
+          <StatCard label="System uptime" value={data.uptime_seconds} unit="sec" size="sm" delay="200ms" />
+          <StatCard label="Last telemetry" value={data.checked_at} isTimestamp size="sm" delay="250ms" />
         </div>
       </div>
     </div>
@@ -175,9 +157,9 @@ function WebSocketDiagnostics() {
           <span className="opacity-40">]</span>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-          <Metric label="Total Active Users" value={data.total_users} isPrimary />
-          <Metric label="Network Relays" value={data.total_user_connections} isPrimary />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
+          <StatCard label="Total Active Users" value={data.total_users} size="lg" />
+          <StatCard label="Network Relays" value={data.total_user_connections} size="lg" />
         </div>
       </div>
 
@@ -193,10 +175,10 @@ function WebSocketDiagnostics() {
           <div className="flex-1 h-px bg-app-border/30 ml-2" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Metric label="Total Nodes" value={data.total_vaults} delay="100ms" />
-          <Metric label="Data Subscriptions" value={data.subscriptions} delay="150ms" />
-          <Metric label="Live Vaults" value={data.online_vaults.length} isPrimary delay="200ms" />
-          <Metric label="Last telemetry" value={data.checked_at} isTimestamp delay="250ms" />
+          <StatCard label="Total Nodes" value={data.total_vaults} size="md" delay="100ms" />
+          <StatCard label="Data Subscriptions" value={data.subscriptions} size="md" delay="150ms" />
+          <StatCard label="Live Vaults" value={data.online_vaults.length} size="lg" delay="200ms" />
+          <StatCard label="Last telemetry" value={data.checked_at} isTimestamp size="sm" delay="250ms" />
         </div>
       </div>
 
@@ -273,83 +255,18 @@ function DatabaseDiagnostics() {
           <div className="flex-1 h-px bg-app-border/30 ml-2" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Metric label="Pool Size" value={data.pool_size} isPrimary delay="100ms" />
-          <Metric label="Checked Out" value={data.checked_out} isPrimary delay="150ms" />
-          <Metric 
-            label="Node Overflow" 
-            value={data.overflow} 
-            semanticValue={data.overflow <= 0 ? 'success' : data.overflow <= 5 ? 'warning' : 'danger'}
+          <StatCard label="Pool Size" value={data.pool_size} size="lg" delay="100ms" />
+          <StatCard label="Checked Out" value={data.checked_out} size="lg" delay="150ms" />
+          <StatCard
+            label="Node Overflow"
+            value={data.overflow}
+            variant={data.overflow <= 0 ? 'default' : data.overflow <= 5 ? 'warning' : 'danger'}
+            size="md"
             delay="200ms"
           />
-          <Metric label="Last telemetry" value={data.checked_at} isTimestamp delay="250ms" />
+          <StatCard label="Last telemetry" value={data.checked_at} isTimestamp size="sm" delay="250ms" />
         </div>
       </div>
-    </div>
-  )
-}
-
-function Metric({ 
-  label, 
-  value, 
-  unit,
-  isTimestamp,
-  isPrimary = false,
-  semanticValue,
-  className,
-  delay = '0ms'
-}: { 
-  label: string
-  value: string | number | boolean | null | undefined
-  unit?: string
-  isTimestamp?: boolean
-  isPrimary?: boolean
-  semanticValue?: 'success' | 'warning' | 'danger'
-  className?: string
-  delay?: string
-}) {
-  const displayValue = isTimestamp && typeof value === 'string' 
-    ? formatRelativeTime(value) 
-    : String(value)
-  
-  const title = isTimestamp && typeof value === 'string' 
-    ? new Date(value).toLocaleString() 
-    : undefined
-  
-  const getSemanticColor = () => {
-    if (!semanticValue) return 'text-app-text'
-    switch (semanticValue) {
-      case 'success': return 'text-emerald-400'
-      case 'warning': return 'text-amber-400'
-      case 'danger': return 'text-app-danger'
-      default: return 'text-app-text'
-    }
-  }
-  
-  return (
-    <div 
-      className={`group relative overflow-hidden rounded-xl border border-app-border/30 border-t-app-border/40 bg-gradient-to-b from-app-surface/20 to-transparent p-5 transition-all duration-300 hover:border-app-border/50 hover:bg-app-surface-2/50 hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-2 ${className ?? ''}`}
-      style={{ animationDelay: delay, animationFillMode: 'both' }}
-    >
-      <div className="text-[10px] font-black uppercase tracking-[0.25em] text-app-muted opacity-40 mb-3 group-hover:text-app-muted group-hover:opacity-60 transition-all">
-        {label}
-      </div>
-      <div className="flex items-baseline gap-2.5">
-        {/* P2: High Signal Metric Typo */}
-        <div 
-          className={`tracking-tighter ${isPrimary ? 'text-4xl font-display font-black text-app-text drop-shadow-[0_0_12px_rgba(var(--color-brand),0.2)]' : 'text-xl font-mono font-medium text-app-text/90'} ${getSemanticColor()}`}
-          title={title}
-        >
-          {displayValue}
-        </div>
-        {unit && (
-          <span className="text-[10px] font-black uppercase tracking-widest text-app-muted opacity-30">{unit}</span>
-        )}
-      </div>
-      
-      {/* Subtle indicator for primary metrics */}
-      {isPrimary && (
-        <div className="absolute top-3 right-3 h-1 w-1 rounded-full bg-brand/40 group-hover:bg-brand group-hover:shadow-[0_0_8px_rgba(var(--color-brand),1)] transition-all animate-pulse" />
-      )}
     </div>
   )
 }

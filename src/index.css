@@ -13,6 +13,7 @@
   --color-app-text: 245 245 245;
   --color-app-muted: 163 163 163;
   --color-app-danger: 239 68 68;
+  --shadow-color: 0 0 0;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,6 +28,7 @@ html.light {
   --color-app-muted: 100 116 139;
   --color-app-danger: 239 68 68;
   --color-brand: 101 163 13;
+  --shadow-color: 148 163 184;
 }
 
 body {

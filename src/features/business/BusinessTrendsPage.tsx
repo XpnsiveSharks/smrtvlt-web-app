@@ -63,7 +63,7 @@ export function BusinessTrendsPage() {
       {!loading && !error && data && (
         <div className="grid gap-6 lg:grid-cols-2">
           {/* User Signups */}
-          <Card className="animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both border-t-2 border-brand/30 bg-app-surface-2 shadow-lg shadow-black/20 transition-all hover:shadow-xl hover:shadow-brand/5 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.05)]">
+          <Card className="animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both border-t-2 border-brand/30 bg-app-surface-2 shadow-lg shadow-app-shadow/20 transition-all hover:shadow-xl hover:shadow-brand/5 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.05)]">
             <div className="-mx-6 -mt-6 rounded-t-lg bg-gradient-to-b from-brand/5 to-transparent px-6 pb-2 pt-6">
               <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-brand">User Signups</h2>
             </div>
@@ -174,7 +174,7 @@ export function BusinessTrendsPage() {
           </Card>
 
           {/* Vault Provisioning */}
-          <Card className="animate-in fade-in slide-in-from-bottom-4 delay-100 duration-700 fill-mode-both border-t-2 border-brand/30 bg-app-surface-2 shadow-lg shadow-black/20 transition-all hover:shadow-xl hover:shadow-brand/5 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.05)]">
+          <Card className="animate-in fade-in slide-in-from-bottom-4 delay-100 duration-700 fill-mode-both border-t-2 border-brand/30 bg-app-surface-2 shadow-lg shadow-app-shadow/20 transition-all hover:shadow-xl hover:shadow-brand/5 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.05)]">
             <div className="-mx-6 -mt-6 rounded-t-lg bg-gradient-to-b from-brand/5 to-transparent px-6 pb-2 pt-6">
               <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-brand">Vault Provisioning</h2>
             </div>

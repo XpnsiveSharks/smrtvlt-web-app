@@ -94,7 +94,7 @@ function CreateKeyModal({ onClose, onCreated }: CreateKeyModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-app-bg/60 backdrop-blur-md" onClick={onClose}>
       <div
-        className="w-full max-w-md rounded-2xl border border-app-border border-t-app-border/50 bg-gradient-to-b from-app-surface to-app-surface-2 p-8 shadow-2xl shadow-black/60"
+        className="w-full max-w-md rounded-2xl border border-app-border border-t-app-border/50 bg-gradient-to-b from-app-surface to-app-surface-2 p-8 shadow-2xl shadow-app-shadow/60"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3">
@@ -176,7 +176,7 @@ function KeyRevealDialog({ result, onClose }: KeyRevealDialogProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-app-bg/60 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-2xl border border-app-border border-t-app-border/50 bg-gradient-to-b from-app-surface to-app-surface-2 p-8 shadow-2xl shadow-black/60">
+      <div className="w-full max-w-lg rounded-2xl border border-app-border border-t-app-border/50 bg-gradient-to-b from-app-surface to-app-surface-2 p-8 shadow-2xl shadow-app-shadow/60">
         <div className="mb-6 flex flex-col items-center text-center">
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 text-brand">
             <CheckCircle2 size={40} />
@@ -248,7 +248,7 @@ function RevokeDialog({ keyName, onConfirm, onCancel, revoking }: RevokeDialogPr
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-app-bg/60 backdrop-blur-sm" onClick={onCancel}>
       <div
-        className="w-full max-w-sm rounded-2xl border border-app-border border-t-app-border/50 bg-gradient-to-b from-app-surface to-app-surface-2 p-6 shadow-2xl shadow-black/60"
+        className="w-full max-w-sm rounded-2xl border border-app-border border-t-app-border/50 bg-gradient-to-b from-app-surface to-app-surface-2 p-6 shadow-2xl shadow-app-shadow/60"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="font-display text-xl text-app-text text-app-danger">Revoke API Key</h2>
@@ -336,7 +336,7 @@ export function OpsApiKeysPage() {
         {/* Decorative Gradient Bleed */}
         <div className="absolute -top-[1px] left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-brand/40 to-transparent z-10 opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
         
-        <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60">
+        <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-app-shadow/60">
           {loading && <LoadingState label="Loading API keys..." />}
 
           {!loading && error && (

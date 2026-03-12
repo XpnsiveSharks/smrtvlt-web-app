@@ -13,6 +13,7 @@ export default {
         'app-text': 'rgb(var(--color-app-text) / <alpha-value>)',
         'app-muted': 'rgb(var(--color-app-muted) / <alpha-value>)',
         'app-danger': 'rgb(var(--color-app-danger) / <alpha-value>)',
+        'app-shadow': 'rgb(var(--shadow-color) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

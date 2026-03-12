@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactNode } from 'react'
+import { useState, useEffect } from 'react'
 import { 
   Activity, 
   Lock, 
@@ -13,60 +13,17 @@ import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
+import { StatCard } from '../../components/ui/StatCard'
 import { useBusinessActivity } from './hooks/useBusinessActivity'
 
 const PAGE_SIZE = 20
-
-interface KPITileProps {
-  label: string
-  value: string | number
-  icon: ReactNode
-  trend?: string
-  variant?: 'default' | 'danger' | 'brand'
-  delay?: string
-}
-
-function KPITile({ label, value, icon, variant = 'default', delay = '0ms' }: KPITileProps) {
-  const variantStyles = {
-    default: 'text-app-text border-app-border/30 bg-app-surface-2/50',
-    danger: 'text-red-400 border-red-500/20 bg-red-500/5',
-    brand: 'text-brand border-brand/20 bg-brand/5',
-  }
-
-  const iconStyles = {
-    default: 'bg-app-surface/30 text-app-muted',
-    danger: 'bg-red-500/10 text-red-400',
-    brand: 'bg-brand/10 text-brand',
-  }
-
-  return (
-    <div 
-      className={`relative overflow-hidden rounded-2xl border p-4 shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-black/40 animate-in fade-in slide-in-from-bottom-2 ${variantStyles[variant]}`}
-      style={{ animationDelay: delay, animationFillMode: 'both' }}
-    >
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">{label}</p>
-          <p className="mt-2 font-display text-2xl font-bold leading-none tracking-tight">
-            {value}
-          </p>
-        </div>
-        <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${iconStyles[variant]}`}>
-          {icon}
-        </div>
-      </div>
-      <div className="absolute -bottom-2 -right-2 opacity-[0.03]">
-        {icon}
-      </div>
-    </div>
-  )
-}
 
 export function BusinessActivityPage() {
   const [selectedHours, setSelectedHours] = useState(24)
   const [page, setPage] = useState(1)
   const { data, loading, error, refetch } = useBusinessActivity(selectedHours, 50)
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setPage(1) }, [data])
 
   const totalPages = data ? Math.max(1, Math.ceil(data.entries.length / PAGE_SIZE)) : 1
@@ -123,34 +80,34 @@ export function BusinessActivityPage() {
         <div className="space-y-8">
           {/* Summary Cards */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            <KPITile 
-              label="Total events" 
-              value={data.summary.total_events.toLocaleString()} 
+            <StatCard
+              label="Total events"
+              value={data.summary.total_events.toLocaleString()}
               icon={<Activity size={18} />}
               delay="0ms"
             />
-            <KPITile 
-              label="Vault unlocks" 
-              value={data.summary.vault_unlocks.toLocaleString()} 
+            <StatCard
+              label="Vault unlocks"
+              value={data.summary.vault_unlocks.toLocaleString()}
               icon={<Lock size={18} />}
               delay="50ms"
             />
-            <KPITile 
-              label="Failed unlocks" 
-              value={data.summary.failed_unlocks.toLocaleString()} 
+            <StatCard
+              label="Failed unlocks"
+              value={data.summary.failed_unlocks.toLocaleString()}
               icon={<ShieldAlert size={18} />}
               variant={data.summary.failed_unlocks > 0 ? 'danger' : 'default'}
               delay="100ms"
             />
-            <KPITile 
-              label="PIN operations" 
-              value={data.summary.pin_operations.toLocaleString()} 
+            <StatCard
+              label="PIN operations"
+              value={data.summary.pin_operations.toLocaleString()}
               icon={<Key size={18} />}
               delay="150ms"
             />
-            <KPITile 
-              label="State changes" 
-              value={data.summary.state_changes.toLocaleString()} 
+            <StatCard
+              label="State changes"
+              value={data.summary.state_changes.toLocaleString()}
               icon={<RefreshCcw size={18} />}
               delay="200ms"
             />
@@ -160,7 +117,7 @@ export function BusinessActivityPage() {
           <div className="relative group/card">
             <div className="absolute -top-[1px] left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-brand/40 to-transparent z-10 opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
             
-            <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60">
+            <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-app-shadow/60">
               <div className="bg-app-surface/20 border-b border-app-border/20 px-6 py-4 flex items-center justify-between">
                 <div>
                   <h2 className="font-display text-lg text-app-text">Recent Entries</h2>

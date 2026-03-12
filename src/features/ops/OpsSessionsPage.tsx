@@ -2,25 +2,7 @@ import { useSessionStats, useRevokeSessions } from './hooks/useSessions'
 import { useState } from 'react'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { ErrorState } from '../../components/ui/ErrorState'
-
-function formatRelativeTime(isoString: string): string {
-  try {
-    const date = new Date(isoString)
-    const now = new Date()
-    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000)
-    
-    if (seconds < 0) return 'just now'
-    if (seconds < 60) return `${seconds}s ago`
-    const minutes = Math.floor(seconds / 60)
-    if (minutes < 60) return `${minutes}m ago`
-    const hours = Math.floor(minutes / 60)
-    if (hours < 24) return `${hours}h ago`
-    const days = Math.floor(hours / 24)
-    return `${days}d ago`
-  } catch {
-    return isoString
-  }
-}
+import { StatCard } from '../../components/ui/StatCard'
 
 export function OpsSessionsPage() {
   const { data, loading, error, refetch } = useSessionStats()
@@ -37,25 +19,15 @@ export function OpsSessionsPage() {
       {error && <ErrorState detail={error} onRetry={refetch} />}
       
       {data && (
-        <div className="bg-app-surface-2 rounded-lg p-6 shadow-2xl shadow-black/40 border border-app-border/30 relative overflow-hidden">
+        <div className="bg-app-surface-2 rounded-lg p-6 shadow-2xl shadow-app-shadow/40 border border-app-border/30 relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-brand/10 to-transparent pointer-events-none" />
           
           {/* Primary metrics card */}
           <div className="relative z-10 bg-app-surface/50 backdrop-blur-sm rounded-lg p-5 border border-app-border/20 mb-8 shadow-inner">
             <div className="text-[10px] uppercase tracking-[0.2em] text-brand mb-4 font-bold opacity-80">Active Sessions</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Metric 
-                label="Total Active Tokens" 
-                value={data.total_active_tokens} 
-                isPrimary 
-                className="bg-app-bg/40 rounded-xl p-5 border border-app-border/30 shadow-lg motion-safe:hover:scale-[1.02] transition-transform duration-300" 
-              />
-              <Metric 
-                label="Checked At" 
-                value={data.checked_at} 
-                isTimestamp 
-                className="bg-app-bg/40 rounded-xl p-5 border border-app-border/30 shadow-lg motion-safe:hover:scale-[1.02] transition-transform duration-300" 
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <StatCard label="Total Active Tokens" value={data.total_active_tokens} size="lg" />
+              <StatCard label="Checked At" value={data.checked_at} isTimestamp size="sm" />
             </div>
           </div>
 
@@ -136,38 +108,3 @@ export function OpsSessionsPage() {
   )
 }
 
-function Metric({ 
-  label, 
-  value, 
-  isTimestamp,
-  isPrimary = false,
-  className,
-}: { 
-  label: string
-  value: string | number | boolean | null | undefined
-  isTimestamp?: boolean
-  isPrimary?: boolean
-  className?: string
-}) {
-  const displayValue = isTimestamp && typeof value === 'string' 
-    ? formatRelativeTime(value) 
-    : String(value)
-  
-  const title = isTimestamp && typeof value === 'string' 
-    ? new Date(value).toLocaleString() 
-    : undefined
-  
-  return (
-    <div className={className}>
-      <div className={`text-[10px] uppercase tracking-[0.15em] mb-3 ${isPrimary ? 'font-bold text-app-text/90' : 'text-app-muted'}`}>
-        {label}
-      </div>
-      <div 
-        className={`leading-none ${isPrimary ? 'text-5xl font-display font-black text-app-text drop-shadow-[0_0_15px_rgba(var(--color-brand),0.15)]' : 'text-2xl font-display font-bold text-app-text/70'}`}
-        title={title}
-      >
-        {displayValue}
-      </div>
-    </div>
-  )
-}

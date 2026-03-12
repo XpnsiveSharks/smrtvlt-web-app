@@ -57,7 +57,7 @@ export function OpsSummaryPage() {
       {!loading && !error && (
     <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {/* Business Section */}
-          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[100ms] fill-mode-both">
+          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-app-shadow/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[100ms] fill-mode-both">
             <div className="bg-app-surface/20 border-b border-app-border/20 px-6 py-4 flex items-center justify-between relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1 h-full bg-brand" />
               <div>
@@ -114,7 +114,7 @@ export function OpsSummaryPage() {
           </Card>
 
           {/* Security Section */}
-          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[200ms] fill-mode-both">
+          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-app-shadow/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[200ms] fill-mode-both">
             <div className="bg-app-surface/20 border-b border-app-border/20 px-6 py-4 flex items-center justify-between relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1 h-full bg-app-danger" />
               <div>
@@ -177,7 +177,7 @@ export function OpsSummaryPage() {
           </Card>
 
           {/* Activity Section */}
-          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-black/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[300ms] fill-mode-both">
+          <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-app-shadow/60 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[300ms] fill-mode-both">
             <div className="bg-app-surface/20 border-b border-app-border/20 px-6 py-4 flex items-center justify-between relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1 h-full bg-brand/60" />
               <div>

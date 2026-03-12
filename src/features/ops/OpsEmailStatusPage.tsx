@@ -32,7 +32,7 @@ export function OpsEmailStatusPage() {
       {error && <ErrorState detail={error} onRetry={refetch} />}
       
       {data && (
-        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-2xl shadow-black/40 border border-app-border/30 relative overflow-hidden group">
+        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-2xl shadow-app-shadow/40 border border-app-border/30 relative overflow-hidden group">
           {/* Atmospheric Depth */}
           <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-brand/10 to-transparent pointer-events-none" />
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-brand/5 rounded-full blur-3xl pointer-events-none" />

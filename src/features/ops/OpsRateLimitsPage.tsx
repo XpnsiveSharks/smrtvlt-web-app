@@ -1,25 +1,7 @@
 import { useRateLimits } from './hooks/useRateLimits'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { ErrorState } from '../../components/ui/ErrorState'
-
-function formatRelativeTime(isoString: string): string {
-  try {
-    const date = new Date(isoString)
-    const now = new Date()
-    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000)
-    
-    if (seconds < 0) return 'just now'
-    if (seconds < 60) return `${seconds}s ago`
-    const minutes = Math.floor(seconds / 60)
-    if (minutes < 60) return `${minutes}m ago`
-    const hours = Math.floor(minutes / 60)
-    if (hours < 24) return `${hours}h ago`
-    const days = Math.floor(hours / 24)
-    return `${days}d ago`
-  } catch {
-    return isoString
-  }
-}
+import { StatCard } from '../../components/ui/StatCard'
 
 export function OpsRateLimitsPage() {
   const { data, loading, error, refetch } = useRateLimits()
@@ -34,7 +16,7 @@ export function OpsRateLimitsPage() {
       {error && <ErrorState detail={error} onRetry={refetch} />}
       
       {data && (
-        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-2xl shadow-black/40 border border-app-border/30 relative overflow-hidden group">
+        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-2xl shadow-app-shadow/40 border border-app-border/30 relative overflow-hidden group">
           {/* Atmospheric Depth */}
           <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-brand/15 to-transparent pointer-events-none" />
           <div className="absolute -top-24 -left-24 w-64 h-64 bg-brand/5 rounded-full blur-3xl pointer-events-none" />
@@ -43,11 +25,9 @@ export function OpsRateLimitsPage() {
             {/* Primary metrics card */}
             <div className="bg-app-surface/40 backdrop-blur-md rounded-2xl p-6 border border-app-border/30 mb-8 shadow-inner group-hover:border-brand/20 transition-colors duration-500">
               <div className="text-[10px] uppercase tracking-[0.2em] text-brand mb-4 font-bold opacity-80">Active Keys</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <Metric label="Total Active Keys" value={data.total_active_keys} isPrimary />
-                <div className="flex flex-col justify-end">
-                  <Metric label="Checked At" value={data.checked_at} isTimestamp />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <StatCard label="Total Active Keys" value={data.total_active_keys} size="lg" />
+                <StatCard label="Checked At" value={data.checked_at} isTimestamp size="sm" />
               </div>
             </div>
 
@@ -122,36 +102,3 @@ export function OpsRateLimitsPage() {
   )
 }
 
-function Metric({ 
-  label, 
-  value, 
-  isTimestamp,
-  isPrimary = false,
-}: { 
-  label: string
-  value: string | number | boolean | null | undefined
-  isTimestamp?: boolean
-  isPrimary?: boolean
-}) {
-  const displayValue = isTimestamp && typeof value === 'string' 
-    ? formatRelativeTime(value) 
-    : String(value)
-  
-  const title = isTimestamp && typeof value === 'string' 
-    ? new Date(value).toLocaleString() 
-    : undefined
-  
-  return (
-    <div>
-      <div className={`text-[10px] uppercase tracking-[0.15em] mb-3 ${isPrimary ? 'font-bold text-app-text/60' : 'text-app-muted'}`}>
-        {label}
-      </div>
-      <div 
-        className={`leading-none ${isPrimary ? 'text-6xl font-display font-black tracking-tighter text-app-text drop-shadow-[0_0_15px_rgba(var(--color-brand),0.15)]' : 'text-xl font-mono text-app-text/70'}`}
-        title={title}
-      >
-        {displayValue}
-      </div>
-    </div>
-  )
-}
