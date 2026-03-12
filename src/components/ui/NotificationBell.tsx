@@ -36,7 +36,7 @@ export function NotificationBell({ alerts }: NotificationBellProps) {
         type="button"
         aria-haspopup="true"
         aria-expanded={isOpen}
-        className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 bg-app-surface-2 text-app-muted transition-all duration-300 hover:bg-white/5 hover:text-brand"
+        className="flex h-9 w-9 items-center justify-center rounded-lg border border-app-border/30 bg-app-surface-2 text-app-muted transition-all duration-300 hover:bg-app-surface/50 hover:text-brand"
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <Bell className="h-4 w-4" />
@@ -48,8 +48,8 @@ export function NotificationBell({ alerts }: NotificationBellProps) {
         </span>
       )}
       {isOpen && (
-        <div className="absolute right-0 top-12 z-50 w-72 rounded-xl border border-white/5 bg-app-surface shadow-2xl">
-          <div className="px-4 py-3 border-b border-white/5 text-[10px] font-black uppercase tracking-widest text-app-muted">
+        <div className="absolute right-0 top-12 z-50 w-72 rounded-xl border border-app-border/30 bg-app-surface shadow-2xl">
+          <div className="px-4 py-3 border-b border-app-border/30 text-[10px] font-black uppercase tracking-widest text-app-muted">
             Notifications
           </div>
           {alerts.length === 0 ? (
@@ -58,7 +58,7 @@ export function NotificationBell({ alerts }: NotificationBellProps) {
             alerts.map((alert) => (
               <div
                 key={alert.type}
-                className="px-4 py-3 border-b border-white/5 last:border-0 hover:bg-white/[0.03] transition-colors"
+                className="px-4 py-3 border-b border-app-border/30 last:border-0 hover:bg-app-surface/30 transition-colors"
               >
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-[10px] font-bold uppercase tracking-widest text-app-text">{alert.type}</p>

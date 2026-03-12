@@ -13,13 +13,16 @@ import {
   LineChart,
   ListChecks,
   Menu,
+  Moon,
   ShieldAlert,
+  Sun,
   X,
 } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { NotificationBell } from '../components/ui/NotificationBell'
 import { clearAdminToken } from '../auth/tokenStore'
 import { useSecurityAlerts } from '../features/security/hooks/useSecurityAlerts'
+import { useTheme } from '../hooks/useTheme'
 
 export function AdminLayout() {
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -31,6 +34,7 @@ export function AdminLayout() {
   })
   const navigate = useNavigate()
   const { data } = useSecurityAlerts()
+  const { theme, toggle } = useTheme()
 
   const toggleSection = (heading: string) => {
     setExpandedSections((prev) => ({ ...prev, [heading]: !prev[heading] }))
@@ -97,7 +101,7 @@ export function AdminLayout() {
         aria-label="Primary navigation drawer"
       >
         <div className="flex h-full flex-col overflow-hidden">
-          <div className={`flex items-center min-h-[80px] px-6 border-b border-white/[0.03] ${desktopCollapsed ? 'justify-center px-0' : 'justify-between'}`}>
+          <div className={`flex items-center min-h-[80px] px-6 border-b border-app-border/20 ${desktopCollapsed ? 'justify-center px-0' : 'justify-between'}`}>
             <div className="flex items-center gap-3">
               {desktopCollapsed ? (
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 border border-brand/20 shadow-[0_0_15px_rgba(var(--color-brand),0.1)] group transition-all duration-300 hover:scale-110">
@@ -125,7 +129,7 @@ export function AdminLayout() {
                       `inline-flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 ${
                         isActive
                           ? 'bg-brand text-app-bg shadow-[0_0_20px_rgba(var(--color-brand),0.3)] scale-110'
-                          : 'text-app-muted hover:bg-white/5 hover:text-brand'
+                           : 'text-app-muted hover:bg-app-surface/50 hover:text-brand'
                       }`
                     }
                   >
@@ -170,7 +174,7 @@ export function AdminLayout() {
                             `group flex items-center gap-3 px-3 py-2 text-sm font-bold transition-all duration-200 ${
                               isActive
                                 ? 'bg-brand/10 text-brand border-l-2 border-brand rounded-r-lg rounded-l-none -ml-4 pl-[calc(1rem+2px)] shadow-[inset_10px_0_15px_-10px_rgba(var(--color-brand),0.1)]'
-                                : 'text-app-muted/80 rounded-r-lg rounded-l-none -ml-4 pl-[calc(1rem+2px)] hover:bg-white/5 hover:text-app-text'
+                                : 'text-app-muted/80 rounded-r-lg rounded-l-none -ml-4 pl-[calc(1rem+2px)] hover:bg-app-surface/50 hover:text-app-text'
                             }`
                           }
                         >
@@ -189,7 +193,7 @@ export function AdminLayout() {
             )}
           </nav>
 
-          <div className="p-4 border-t border-white/[0.03] bg-white/[0.01]">
+          <div className="p-4 border-t border-app-border/20 bg-app-surface/20">
             <div className={`flex items-center ${desktopCollapsed ? 'justify-center' : 'justify-between'}`}>
               {!desktopCollapsed && (
                 <div className="flex flex-col">
@@ -203,7 +207,7 @@ export function AdminLayout() {
               
               <button
                 type="button"
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 bg-app-surface-2 text-app-muted transition-all duration-300 hover:bg-brand hover:text-app-bg hover:border-brand shadow-sm"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-app-border/30 bg-app-surface-2 text-app-muted transition-all duration-300 hover:bg-brand hover:text-app-bg hover:border-brand shadow-sm"
                 onClick={() => desktopCollapsed ? setIsCollapsed(false) : (isNavOpen ? setIsNavOpen(false) : setIsCollapsed(true))}
                 aria-label={desktopCollapsed ? "Expand navigation" : "Collapse navigation"}
               >
@@ -222,7 +226,7 @@ export function AdminLayout() {
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-app-border bg-app-bg/80 px-6 backdrop-blur-md">
           <div className="flex items-center gap-4">
             <button
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-app-surface-2 text-app-text border border-white/5 md:hidden active:scale-95 transition-transform"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-app-surface-2 text-app-text border border-app-border/30 md:hidden active:scale-95 transition-transform"
               onClick={() => setIsNavOpen(true)}
               aria-label="Open navigation"
             >
@@ -235,10 +239,18 @@ export function AdminLayout() {
           </div>
           <div className="flex items-center gap-2">
             <NotificationBell alerts={data?.active_alerts ?? []} />
+            <button
+              type="button"
+              onClick={toggle}
+              aria-label="Toggle theme"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-app-border bg-app-surface-2 text-app-muted transition-all duration-300 hover:bg-brand hover:text-app-bg hover:border-brand shadow-sm"
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
             <Button
               variant="secondary"
               onClick={handleSignOut}
-              className="h-9 px-4 text-xs font-bold uppercase tracking-widest border-white/5 hover:bg-app-danger hover:text-white hover:border-app-danger transition-all"
+              className="h-9 px-4 text-xs font-bold uppercase tracking-widest border-app-border/30 hover:bg-app-danger hover:text-white hover:border-app-danger transition-all"
             >
               Sign out
             </Button>

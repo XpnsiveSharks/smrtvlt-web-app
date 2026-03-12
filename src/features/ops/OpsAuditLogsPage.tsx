@@ -124,18 +124,18 @@ export function OpsAuditLogsPage() {
             </p>
           </div>
         </div>
-        <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-white/5 hover:bg-white/5">
+        <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-app-border/30 hover:bg-app-surface/50">
           Refresh
         </Button>
       </header>
 
       <div className="relative z-10 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
         <form
-          className="flex flex-wrap items-end gap-4 rounded-xl border border-white/5 bg-app-surface/60 backdrop-blur-md p-4 shadow-2xl shadow-black/40"
+          className="flex flex-wrap items-end gap-4 rounded-xl border border-app-border/30 bg-app-surface-2/50 backdrop-blur-md p-4 shadow-sm shadow-app-shadow/10"
           onSubmit={handleFilterSubmit}
         >
           <label className="flex min-w-52 flex-col gap-1.5 text-sm">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-app-muted opacity-40">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-app-muted opacity-70">
               Action filter
             </span>
             {/* P3: Filter Input Interactive Prefix & Glow */}
@@ -147,20 +147,20 @@ export function OpsAuditLogsPage() {
                 value={actionInput}
                 onChange={(event) => setActionInput(event.target.value)}
                 placeholder="api_key_created"
-                className="h-10 w-full rounded-lg border border-white/10 bg-app-bg/60 pl-12 pr-3 font-mono text-xs text-app-text outline-none transition duration-300 focus:border-brand/50 focus:ring-2 focus:ring-brand/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] focus:shadow-[inset_0_2px_8px_rgba(0,0,0,0.5),0_0_20px_rgba(var(--color-brand),0.1)]"
+                className="h-10 w-full rounded-lg border border-app-border/50 bg-app-bg/60 pl-12 pr-3 font-mono text-xs text-app-text outline-none transition duration-300 focus:border-brand/50 focus:ring-2 focus:ring-brand/10 shadow-[inset_0_1px_3px_rgba(var(--shadow-color),0.08)] focus:shadow-[inset_0_1px_3px_rgba(var(--shadow-color),0.12),0_0_16px_rgba(var(--color-brand),0.08)]"
               />
             </div>
           </label>
 
           <label className="flex flex-col gap-1.5 text-sm">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-app-muted opacity-40">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-app-muted opacity-70">
               Per page
             </span>
             <div className="relative">
               <select
                 value={String(limit)}
                 onChange={handleLimitChange}
-                className="h-10 appearance-none rounded-lg border border-white/10 bg-app-bg/60 pl-3 pr-10 font-mono text-xs text-app-text outline-none transition duration-300 focus:border-brand/50 focus:ring-2 focus:ring-brand/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]"
+                className="h-10 appearance-none rounded-lg border border-app-border/50 bg-app-bg/60 pl-3 pr-10 font-mono text-xs text-app-text outline-none transition duration-300 focus:border-brand/50 focus:ring-2 focus:ring-brand/10 shadow-[inset_0_1px_3px_rgba(var(--shadow-color),0.08)]"
               >
                 <option value="25">25</option>
                 <option value="50">50</option>
@@ -175,13 +175,13 @@ export function OpsAuditLogsPage() {
           </label>
 
           {/* P1: Refine Primary Action Materiality */}
-          <Button type="submit" className="h-10 px-8 font-black uppercase tracking-[0.2em] text-[10px] shadow-xl shadow-brand/10 border border-t-white/20 active:scale-95 transition-all">
+          <Button type="submit" className="h-10 px-6 text-sm font-semibold shadow-sm shadow-brand/10 active:scale-95 transition-all">
             Apply
           </Button>
           <Button
             type="button"
             variant="secondary"
-            className="h-10 px-6 font-bold uppercase tracking-widest text-[10px] border-white/5 hover:bg-white/10"
+             className="h-10 px-6 font-bold uppercase tracking-widest text-[10px] border-app-border/30 hover:bg-app-surface/50"
             onClick={() => {
               setActionInput('')
               updateParams({ page: 1, action: '' })
@@ -192,7 +192,7 @@ export function OpsAuditLogsPage() {
         </form>
 
         {/* P2: Glass-Rim Card Definition */}
-          <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+          <Card className="p-0 overflow-hidden border-app-border/30 shadow-md shadow-app-shadow/10 shadow-[inset_0_1px_0_0_rgba(var(--color-app-text),0.06)] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
           {loading && <LoadingState label="Loading audit logs..." />}
 
           {!loading && error && (
@@ -208,33 +208,49 @@ export function OpsAuditLogsPage() {
             <>
               {(data?.items?.length ?? 0) === 0 ? (
                 /* P1 & P4: Radar Empty State Refinement */
-                <div className="flex flex-col items-center justify-center py-24 px-4 text-center bg-app-bg/20 overflow-hidden">
-                  <div className="relative w-32 h-32 mb-10 flex items-center justify-center">
-                    <div className="absolute inset-0 rounded-full border border-dashed border-white/[0.05] animate-[spin_20s_linear_infinite]" />
-                    <div className="absolute inset-4 rounded-full border border-white/[0.03] animate-pulse" />
-                    <div className="absolute inset-8 rounded-full border border-brand/5 animate-pulse delay-700" />
-                    <div className="w-3 h-3 rounded-full bg-brand shadow-[0_0_20px_rgba(var(--color-brand),0.8)] animate-pulse" />
+                <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                  {/* Icon */}
+                  <div className="relative w-16 h-16 mb-6 flex items-center justify-center rounded-2xl bg-app-surface-2 border border-app-border/40">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-app-muted">
+                      <circle cx="11" cy="11" r="8" />
+                      <path d="m21 21-4.35-4.35" />
+                      <path d="M11 8v6M8 11h6" />
+                    </svg>
+                    <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-app-surface-2 border border-app-border/40 flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 rounded-full bg-app-muted/40" />
+                    </div>
                   </div>
-                  <h3 className="font-mono text-lg text-app-text font-black tracking-[0.3em] uppercase opacity-90 animate-pulse duration-1000">System Scan: Zero Matches</h3>
-                  <p className="mt-3 text-[10px] text-app-muted opacity-40 max-w-[280px] mx-auto uppercase tracking-[0.2em] font-bold">
-                    Expand search parameters or reset active filter matrix
+                  <h3 className="font-display text-base font-bold text-app-text tracking-tight">No results found</h3>
+                  <p className="mt-1.5 text-sm text-app-muted max-w-[260px]">
+                    Try adjusting your filter or clearing the active search.
                   </p>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="mt-5 h-8 px-4 text-xs border-app-border/40"
+                    onClick={() => {
+                      setActionInput('')
+                      updateParams({ page: 1, action: '' })
+                    }}
+                  >
+                    Clear filter
+                  </Button>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-white/[0.03] text-sm">
-                    <thead className="bg-white/[0.02]">
+                  <table className="min-w-full divide-y divide-app-border/30 text-sm">
+                    <thead className="bg-app-surface-2/60 border-b border-app-border/30">
                       <tr className="text-left">
-                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Created</th>
-                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Action</th>
-                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Target Type</th>
-                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Target ID</th>
-                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">IP Address</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-80">Created</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-80">Action</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-80">Target Type</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-80">Target ID</th>
+                        <th className="px-6 py-4 font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-80">IP Address</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/[0.03]">
+                    <tbody className="divide-y divide-app-border/30">
                       {data?.items.map((item) => (
-                        <tr key={item.id} className="group hover:bg-white/[0.02] transition-colors duration-200">
+                        <tr key={item.id} className="group hover:bg-app-surface-2/30 transition-colors duration-200">
                           <td className="whitespace-nowrap px-6 py-4 text-app-muted text-xs font-mono group-hover:text-app-text group-hover:translate-x-1 transition-all duration-300">
                             {formatDate(item.created_at)}
                           </td>
@@ -258,25 +274,18 @@ export function OpsAuditLogsPage() {
               )}
 
               {/* P4: Pagination Hub */}
-              <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.03] bg-white/[0.01] p-4">
+              <div className="flex flex-wrap items-center justify-between gap-4 border-t border-app-border/20 bg-app-surface-2/40 p-4">
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-3">
-                    {/* P2: Amplify Live Signal Indicator */}
-                    <div className="flex items-end gap-1 h-3.5">
-                      <div className="w-0.5 h-1.5 bg-brand/80 animate-[bounce_1.5s_infinite]" />
-                      <div className="w-0.5 h-3 bg-brand animate-[bounce_2s_infinite] delay-100" />
-                      <div className="w-0.5 h-2 bg-brand/70 animate-[bounce_1.2s_infinite] delay-300" />
-                      <div className="w-0.5 h-3.5 bg-brand animate-[bounce_2.5s_infinite] delay-200" />
-                    </div>
                     <div className="flex items-center gap-2">
                       <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
                       <div className="text-[10px] font-black uppercase tracking-[0.25em] text-app-text/60">
-                        System Hub Readout
+                        Live
                       </div>
                     </div>
                   </div>
-                  <div className="h-4 w-px bg-white/10" />
-                  <p className="text-[11px] font-mono text-app-muted">
+                  <div className="h-4 w-px bg-app-border/50" />
+                  <p className="text-xs font-mono text-app-muted">
                     PAGE <span className="font-bold text-app-text">[{String(data?.page ?? page).padStart(2, '0')}]</span> 
                     &nbsp;OF&nbsp; 
                     <span className="font-bold text-app-text">[{String(Math.max(1, data?.pages ?? 1)).padStart(2, '0')}]</span>
@@ -289,7 +298,7 @@ export function OpsAuditLogsPage() {
                     variant="secondary"
                     disabled={!canGoPrev}
                     onClick={() => updateParams({ page: page - 1 })}
-                    className="h-8 px-4 text-[10px] font-black uppercase tracking-widest border-white/5 hover:bg-white/10 transition-all"
+                    className="h-8 px-4 text-[10px] font-black uppercase tracking-widest border-app-border/30 hover:bg-app-surface/50 transition-all disabled:opacity-30"
                   >
                     Prev
                   </Button>
@@ -297,7 +306,7 @@ export function OpsAuditLogsPage() {
                     variant="secondary"
                     disabled={!canGoNext}
                     onClick={() => updateParams({ page: page + 1 })}
-                    className="h-8 px-4 text-[10px] font-black uppercase tracking-widest border-white/5 hover:bg-white/10 transition-all"
+                    className="h-8 px-4 text-[10px] font-black uppercase tracking-widest border-app-border/30 hover:bg-app-surface/50 transition-all disabled:opacity-30"
                   >
                     Next
                   </Button>

@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactNode } from 'react'
+import { useState, useEffect } from 'react'
 import { 
   Activity, 
   Lock, 
@@ -13,60 +13,17 @@ import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
+import { StatCard } from '../../components/ui/StatCard'
 import { useBusinessActivity } from './hooks/useBusinessActivity'
 
 const PAGE_SIZE = 20
-
-interface KPITileProps {
-  label: string
-  value: string | number
-  icon: ReactNode
-  trend?: string
-  variant?: 'default' | 'danger' | 'brand'
-  delay?: string
-}
-
-function KPITile({ label, value, icon, variant = 'default', delay = '0ms' }: KPITileProps) {
-  const variantStyles = {
-    default: 'text-app-text border-white/5 bg-black/20',
-    danger: 'text-red-400 border-red-500/20 bg-red-500/5',
-    brand: 'text-brand border-brand/20 bg-brand/5',
-  }
-
-  const iconStyles = {
-    default: 'bg-white/5 text-app-muted',
-    danger: 'bg-red-500/10 text-red-400',
-    brand: 'bg-brand/10 text-brand',
-  }
-
-  return (
-    <div 
-      className={`relative overflow-hidden rounded-2xl border p-4 shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-black/40 animate-in fade-in slide-in-from-bottom-2 ${variantStyles[variant]}`}
-      style={{ animationDelay: delay, animationFillMode: 'both' }}
-    >
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">{label}</p>
-          <p className="mt-2 font-display text-2xl font-bold leading-none tracking-tight">
-            {value}
-          </p>
-        </div>
-        <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${iconStyles[variant]}`}>
-          {icon}
-        </div>
-      </div>
-      <div className="absolute -bottom-2 -right-2 opacity-[0.03]">
-        {icon}
-      </div>
-    </div>
-  )
-}
 
 export function BusinessActivityPage() {
   const [selectedHours, setSelectedHours] = useState(24)
   const [page, setPage] = useState(1)
   const { data, loading, error, refetch } = useBusinessActivity(selectedHours, 50)
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setPage(1) }, [data])
 
   const totalPages = data ? Math.max(1, Math.ceil(data.entries.length / PAGE_SIZE)) : 1
@@ -89,7 +46,7 @@ export function BusinessActivityPage() {
             <select
               value={selectedHours}
               onChange={(e) => handleHoursChange(Number(e.target.value))}
-              className="appearance-none rounded-xl border border-white/10 bg-black/40 pl-10 pr-10 py-2.5 text-sm text-app-text transition-all focus:border-brand/50 focus:outline-none focus:ring-2 focus:ring-brand/20"
+              className="appearance-none rounded-xl border border-app-border/50 bg-app-surface-2 pl-10 pr-10 py-2.5 text-sm text-app-text transition-all focus:border-brand/50 focus:outline-none focus:ring-2 focus:ring-brand/20"
               disabled={loading}
             >
               <option value={1}>Last hour</option>
@@ -101,7 +58,7 @@ export function BusinessActivityPage() {
             <Clock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-app-muted" />
             <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-app-muted pointer-events-none group-focus-within:rotate-180 transition-transform" />
           </div>
-          <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-white/5 hover:bg-white/5">
+          <Button variant="secondary" onClick={() => void refetch()} isLoading={loading} className="border-app-border/30 hover:bg-app-surface/50">
             <RefreshCcw size={16} className={`mr-2 ${loading ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
@@ -123,34 +80,34 @@ export function BusinessActivityPage() {
         <div className="space-y-8">
           {/* Summary Cards */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            <KPITile 
-              label="Total events" 
-              value={data.summary.total_events.toLocaleString()} 
+            <StatCard
+              label="Total events"
+              value={data.summary.total_events.toLocaleString()}
               icon={<Activity size={18} />}
               delay="0ms"
             />
-            <KPITile 
-              label="Vault unlocks" 
-              value={data.summary.vault_unlocks.toLocaleString()} 
+            <StatCard
+              label="Vault unlocks"
+              value={data.summary.vault_unlocks.toLocaleString()}
               icon={<Lock size={18} />}
               delay="50ms"
             />
-            <KPITile 
-              label="Failed unlocks" 
-              value={data.summary.failed_unlocks.toLocaleString()} 
+            <StatCard
+              label="Failed unlocks"
+              value={data.summary.failed_unlocks.toLocaleString()}
               icon={<ShieldAlert size={18} />}
               variant={data.summary.failed_unlocks > 0 ? 'danger' : 'default'}
               delay="100ms"
             />
-            <KPITile 
-              label="PIN operations" 
-              value={data.summary.pin_operations.toLocaleString()} 
+            <StatCard
+              label="PIN operations"
+              value={data.summary.pin_operations.toLocaleString()}
               icon={<Key size={18} />}
               delay="150ms"
             />
-            <KPITile 
-              label="State changes" 
-              value={data.summary.state_changes.toLocaleString()} 
+            <StatCard
+              label="State changes"
+              value={data.summary.state_changes.toLocaleString()}
               icon={<RefreshCcw size={18} />}
               delay="200ms"
             />
@@ -160,20 +117,20 @@ export function BusinessActivityPage() {
           <div className="relative group/card">
             <div className="absolute -top-[1px] left-10 right-10 h-[2px] bg-gradient-to-r from-transparent via-brand/40 to-transparent z-10 opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
             
-            <Card className="p-0 overflow-hidden border-white/[0.05] shadow-2xl shadow-black/60">
-              <div className="bg-white/[0.02] border-b border-white/[0.03] px-6 py-4 flex items-center justify-between">
+            <Card className="p-0 overflow-hidden border-app-border/30 shadow-2xl shadow-app-shadow/60">
+              <div className="bg-app-surface/20 border-b border-app-border/20 px-6 py-4 flex items-center justify-between">
                 <div>
                   <h2 className="font-display text-lg text-app-text">Recent Entries</h2>
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-app-muted opacity-60">Last {data.period_hours} hours</p>
                 </div>
-                <div className="h-8 w-8 rounded-full bg-white/[0.03] flex items-center justify-center border border-white/5">
+                <div className="h-8 w-8 rounded-full bg-app-surface/30 flex items-center justify-center border border-app-border/30">
                   <History size={16} className="text-app-muted" />
                 </div>
               </div>
 
               {data.entries.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-app-bg/20">
-                  <div className="w-16 h-16 rounded-full bg-white/[0.02] border border-white/5 flex items-center justify-center mb-6">
+                  <div className="w-16 h-16 rounded-full bg-app-surface/20 border border-app-border/30 flex items-center justify-center mb-6">
                     <History size={32} className="text-app-muted opacity-20" />
                   </div>
                   <div className="text-app-text font-semibold text-lg">No activity recorded</div>
@@ -185,7 +142,7 @@ export function BusinessActivityPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="bg-white/[0.01]">
+                      <tr className="bg-app-surface/20">
                         <th className="px-6 py-4 text-left font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">ID</th>
                         <th className="px-6 py-4 text-left font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60">Action</th>
                         <th className="px-6 py-4 text-left font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60 text-center">Method</th>
@@ -193,9 +150,9 @@ export function BusinessActivityPage() {
                         <th className="px-6 py-4 text-left font-bold tracking-[0.2em] text-[10px] uppercase text-app-muted opacity-60 text-right">Created</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/[0.03]">
+                    <tbody className="divide-y divide-app-border/30">
                       {pagedEntries.map((entry) => (
-                        <tr key={entry.id} className="group hover:bg-white/[0.02] transition-colors duration-200">
+                        <tr key={entry.id} className="group hover:bg-app-surface-2/30 transition-colors duration-200">
                           <td className="px-6 py-4 font-mono text-[10px] text-app-muted/50 group-hover:text-app-muted transition-colors">#{entry.id}</td>
                           <td className="px-6 py-4">
                             <span className="inline-flex items-center gap-2 font-semibold text-app-text group-hover:text-brand transition-colors">
@@ -204,7 +161,7 @@ export function BusinessActivityPage() {
                             </span>
                           </td>
                           <td className="px-6 py-4 text-center">
-                            <span className="inline-block rounded border border-white/5 bg-white/[0.03] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-app-muted/80">
+                            <span className="inline-block rounded border border-app-border/30 bg-app-surface/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-app-muted/80">
                               {entry.method}
                             </span>
                           </td>
@@ -227,7 +184,7 @@ export function BusinessActivityPage() {
                     </tbody>
                   </table>
                   {totalPages > 1 && (
-                    <div className="flex items-center justify-between border-t border-white/[0.03] px-6 py-4 bg-white/[0.01]">
+                    <div className="flex items-center justify-between border-t border-app-border/20 px-6 py-4 bg-app-surface/20">
                       <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-app-muted opacity-60">
                         Page {page} of {totalPages} · {data.entries.length} entries
                       </span>
@@ -236,7 +193,7 @@ export function BusinessActivityPage() {
                           type="button"
                           onClick={() => setPage((p) => Math.max(1, p - 1))}
                           disabled={page === 1}
-                          className="rounded-lg border border-white/5 bg-app-surface-2 px-3 py-1.5 text-xs font-bold text-app-muted transition-all hover:bg-white/5 hover:text-app-text disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="rounded-lg border border-app-border/30 bg-app-surface-2 px-3 py-1.5 text-xs font-bold text-app-muted transition-all hover:bg-app-surface/50 hover:text-app-text disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                           Prev
                         </button>
@@ -244,7 +201,7 @@ export function BusinessActivityPage() {
                           type="button"
                           onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                           disabled={page === totalPages}
-                          className="rounded-lg border border-white/5 bg-app-surface-2 px-3 py-1.5 text-xs font-bold text-app-muted transition-all hover:bg-white/5 hover:text-app-text disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="rounded-lg border border-app-border/30 bg-app-surface-2 px-3 py-1.5 text-xs font-bold text-app-muted transition-all hover:bg-app-surface/50 hover:text-app-text disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                           Next
                         </button>

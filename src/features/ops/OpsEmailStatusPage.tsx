@@ -32,14 +32,14 @@ export function OpsEmailStatusPage() {
       {error && <ErrorState detail={error} onRetry={refetch} />}
       
       {data && (
-        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-2xl shadow-black/40 border border-white/[0.05] relative overflow-hidden group">
+        <div className="bg-app-surface-2 rounded-2xl p-8 shadow-2xl shadow-app-shadow/40 border border-app-border/30 relative overflow-hidden group">
           {/* Atmospheric Depth */}
           <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-brand/10 to-transparent pointer-events-none" />
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-brand/5 rounded-full blur-3xl pointer-events-none" />
           
           <div className="relative z-10">
             {/* P2: Service Status Heartbeat */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 bg-app-bg/40 backdrop-blur-md rounded-xl p-6 border border-white/5 shadow-inner">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 bg-app-bg/40 backdrop-blur-md rounded-xl p-6 border border-app-border/30 shadow-inner">
               <div className="flex items-center gap-4">
                 <div className="flex flex-col">
                   <span className="text-[10px] uppercase tracking-[0.2em] text-app-muted mb-1 font-bold">Service Component</span>
@@ -47,7 +47,7 @@ export function OpsEmailStatusPage() {
                 </div>
               </div>
               
-              <div className="flex items-center gap-3 bg-app-surface-2/50 px-4 py-2.5 rounded-lg border border-white/5">
+              <div className="flex items-center gap-3 bg-app-surface-2/50 px-4 py-2.5 rounded-lg border border-app-border/30">
                 <div className={`w-3 h-3 rounded-full ${data.status.toLowerCase() === 'healthy' ? 'bg-emerald-500 animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.5)]' : 'bg-app-danger'}`} />
                 <span className="text-[11px] uppercase tracking-[0.1em] font-bold text-app-text">{data.status}</span>
               </div>
@@ -60,7 +60,7 @@ export function OpsEmailStatusPage() {
                   label="Sent Today" 
                   value={data.sent_today} 
                   isPrimary 
-                  className="bg-app-bg/30 p-6 rounded-2xl border border-white/5 hover:border-brand/20 transition-colors shadow-lg"
+                  className="bg-app-bg/30 p-6 rounded-2xl border border-app-border/30 hover:border-brand/20 transition-colors shadow-lg"
                 />
               </div>
               <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-400 fill-mode-both">
@@ -69,7 +69,7 @@ export function OpsEmailStatusPage() {
                   value={data.failed_today} 
                   isPrimary
                   semanticValue={data.failed_today > 0 ? 'danger' : 'success'}
-                  className="bg-app-bg/30 p-6 rounded-2xl border border-white/5 hover:border-brand/20 transition-colors shadow-lg"
+                  className="bg-app-bg/30 p-6 rounded-2xl border border-app-border/30 hover:border-brand/20 transition-colors shadow-lg"
                 />
               </div>
             </div>
